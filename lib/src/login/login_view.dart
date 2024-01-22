@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -7,11 +7,8 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
-      body: const Padding(
+    return const CupertinoPageScaffold(
+      child: Padding(
         padding: EdgeInsets.all(16),
         child: Center(
           child: Text('Login goes here!'),

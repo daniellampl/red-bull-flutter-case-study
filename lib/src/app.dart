@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -10,7 +9,7 @@ class RedBullCaseStudyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return CupertinoApp(
       restorationScopeId: 'app',
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -19,8 +18,7 @@ class RedBullCaseStudyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      theme: ThemeData(),
-      darkTheme: ThemeData.dark(),
+      theme: const CupertinoThemeData(),
       onGenerateRoute: (RouteSettings routeSettings) {
         return CupertinoPageRoute<void>(
           settings: routeSettings,
