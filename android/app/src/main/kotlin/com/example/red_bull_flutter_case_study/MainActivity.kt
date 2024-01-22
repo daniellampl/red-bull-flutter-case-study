@@ -1,4 +1,4 @@
-package com.example.red_bull_flutter_case_study
+package dev.lampl.redbullcasestudy
 
 import io.flutter.embedding.android.FlutterActivity
 
