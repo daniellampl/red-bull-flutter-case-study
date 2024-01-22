@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
 
-  static const routeName = '/login';
+  static const routeName = 'login';
 
   @override
   Widget build(BuildContext context) {

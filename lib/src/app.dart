@@ -1,15 +1,35 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:go_router/go_router.dart';
+import 'package:red_bull_flutter_case_study/src/features/content-manager/content_manager_folder_view.dart';
+import 'package:red_bull_flutter_case_study/src/features/login/login_view.dart';
 
-import 'login/login_view.dart';
+import 'localization/localization.dart';
 
 class RedBullCaseStudyApp extends StatelessWidget {
   const RedBullCaseStudyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
+    final router = GoRouter(
+      initialLocation: '/',
+      routes: [
+        GoRoute(
+          name: LoginView.routeName,
+          path: '/',
+          builder: (_, __) => const LoginView(),
+          routes: [
+            GoRoute(
+              name: ContentManagerFolderView.routeName,
+              path: 'folders',
+              builder: (_, __) => const ContentManagerFolderView(),
+            ),
+          ],
+        ),
+      ],
+    );
+
+    return CupertinoApp.router(
       restorationScopeId: 'app',
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -19,18 +39,7 @@ class RedBullCaseStudyApp extends StatelessWidget {
       ],
       supportedLocales: AppLocalizations.supportedLocales,
       theme: const CupertinoThemeData(),
-      onGenerateRoute: (RouteSettings routeSettings) {
-        return CupertinoPageRoute<void>(
-          settings: routeSettings,
-          builder: (BuildContext context) {
-            switch (routeSettings.name) {
-              case LoginView.routeName:
-              default:
-                return const LoginView();
-            }
-          },
-        );
-      },
+      routerConfig: router,
     );
   }
 }
