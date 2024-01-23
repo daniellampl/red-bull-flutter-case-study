@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-class ContentManagerFolderView extends StatelessWidget {
-  const ContentManagerFolderView({super.key});
+class ContentManagerFoldersView extends StatelessWidget {
+  const ContentManagerFoldersView({super.key});
 
   static const routeName = 'content-manager-folders';
 

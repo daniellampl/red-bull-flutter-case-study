@@ -161,6 +161,7 @@ class _RbTextFormFieldState extends State<RbTextFormField> {
                                 ? CupertinoIcons.eye
                                 : CupertinoIcons.eye_slash,
                             color: _kLabelTextColor,
+                            size: 20,
                           ),
                         )
                     ],

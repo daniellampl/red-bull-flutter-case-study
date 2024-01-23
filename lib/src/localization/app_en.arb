@@ -2,8 +2,28 @@
   "login_title": "Login",
   "login_subTitle": "Please sign in to continue",
   "login_email_label": "EMAIL",
-  "login_email_error_noValue": "Enter a valid E-Mail address!",
+  "login_email_error_empty": "Enter a valid E-Mail address!",
+  "login_email_error_invalid": "This is not a valid E-Mail address!",
   "login_password_label": "PASSWORD",
-  "login_password_error_noValue": "Enter a valid password!",
+  "login_password_error_empty": "Enter a valid password!",
+  "login_password_error_short": "Password has be at least {minLength} characters long!",
+  "@login_password_error_short": {
+    "placeholders": {
+      "minLength": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  },
+  "login_password_error_long": "Password cannot be longer that {maxLength} characters!",
+  "@login_password_error_long": {
+    "placeholders": {
+      "maxLength": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  },
+  "login_password_error_invalid": "This is not a valid password!",
   "login_cta": "LOGIN"
 }

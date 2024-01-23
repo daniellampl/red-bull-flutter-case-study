@@ -1,16 +1,22 @@
 import 'package:flutter/widgets.dart';
 
-const _kDefaultPrimaryColor = Color(0xFF022EA0);
-const _kDefaultShadowColor = Color(0x40000000);
+const _kDefaultBackground = Color(0xFFFFFFFF);
+const _kDefaultLabelsPrimary = Color(0xFF000000);
+const _kDefaultPrimary = Color(0xFF022EA0);
+const _kDefaultShadow = Color(0x40000000);
 
 class RbColors extends InheritedWidget {
   const RbColors({
     required super.child,
     super.key,
-    this.primary = _kDefaultPrimaryColor,
-    this.shadow = _kDefaultShadowColor,
+    this.background = _kDefaultBackground,
+    this.labelPrimary = _kDefaultLabelsPrimary,
+    this.primary = _kDefaultPrimary,
+    this.shadow = _kDefaultShadow,
   });
 
+  final Color background;
+  final Color labelPrimary;
   final Color primary;
   final Color shadow;
 

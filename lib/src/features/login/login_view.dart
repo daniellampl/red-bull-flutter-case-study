@@ -1,4 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:go_router/go_router.dart';
+import 'package:red_bull_flutter_case_study/src/features/content-manager/content_manager_folders_view.dart';
+import 'package:red_bull_flutter_case_study/src/features/login/login_util.dart';
 import 'package:red_bull_flutter_case_study/src/localization/localization.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_button.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_colors.dart';
@@ -22,10 +25,8 @@ class LoginView extends StatelessWidget {
             const Expanded(child: SizedBox()),
             Text(
               context.l10n.login_title,
-              style: CupertinoTheme.of(context)
-                  .textTheme
-                  .navLargeTitleTextStyle
-                  .copyWith(fontSize: 36),
+              style:
+                  CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
             ),
             const SizedBox(height: 4),
             Text(
@@ -78,26 +79,16 @@ class _LoginFormState extends State<_LoginForm> {
           RbTextFormField(
             label: Text(context.l10n.login_email_label),
             leading: const Icon(CupertinoIcons.mail),
-            validator: (value) {
-              // TODO: add email validation
-              if (value == null || value.isEmpty) {
-                return context.l10n.login_email_error_noValue;
-              }
-              return null;
-            },
+            validator: (value) =>
+                LoginUtil.validateEmail(context.l10n, value: value),
           ),
           const SizedBox(height: 13),
           RbTextFormField(
             label: Text(context.l10n.login_password_label),
             leading: const Icon(CupertinoIcons.lock),
             obscureText: true,
-            validator: (value) {
-              // TODO: add password validation
-              if (value == null || value.isEmpty) {
-                return context.l10n.login_password_error_noValue;
-              }
-              return null;
-            },
+            validator: (value) =>
+                LoginUtil.validatePassword(context.l10n, value: value),
           ),
           const SizedBox(height: 36),
           Align(
@@ -119,7 +110,7 @@ class _LoginFormState extends State<_LoginForm> {
 
   Future<void> _submit() async {
     if (_formKey.currentState!.validate()) {
-      print('eawas');
+      GoRouter.of(context).goNamed(ContentManagerFoldersView.routeName);
     }
   }
 }
