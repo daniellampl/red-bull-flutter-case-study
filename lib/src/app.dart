@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:red_bull_flutter_case_study/src/features/content-manager/content_manager_controller.dart';
 import 'package:red_bull_flutter_case_study/src/features/content-manager/content_manager_folders_view.dart';
+import 'package:red_bull_flutter_case_study/src/features/content-manager/repository/folder_repository.dart';
 import 'package:red_bull_flutter_case_study/src/features/login/login_controller.dart';
 import 'package:red_bull_flutter_case_study/src/features/login/login_view.dart';
 import 'package:red_bull_flutter_case_study/src/localization/localization.dart';
@@ -21,6 +23,8 @@ class RedBullCaseStudyApp extends StatefulWidget {
 }
 
 class _RedBullCaseStudyAppState extends State<RedBullCaseStudyApp> {
+  ContentManagerController? _contentManagerController;
+
   @override
   Widget build(BuildContext context) {
     return RbColors(
@@ -56,47 +60,58 @@ class _RedBullCaseStudyAppState extends State<RedBullCaseStudyApp> {
       ),
     );
   }
-}
 
-GoRouter _buildRouter({
-  String? initialPath,
-}) {
-  final pageRouteObserver = RouteObserver<PageRoute>();
+  GoRouter _buildRouter({
+    String? initialPath,
+  }) {
+    final pageRouteObserver = RouteObserver<PageRoute>();
 
-  return GoRouter(
-    initialLocation: initialPath ?? '/',
-    observers: [pageRouteObserver],
-    routes: [
-      GoRoute(
-        name: LoginView.routeName,
-        path: '/',
-        pageBuilder: (_, __) => CupertinoPage(
-          title: 'Content Manager',
-          child: LoginView(
-            pageRouteObserver: pageRouteObserver,
-          ),
-        ),
-        routes: [
-          GoRoute(
-            name: ContentManagerFoldersView.routeName,
-            path: 'folders',
-            pageBuilder: (_, __) => const CupertinoPage(
-              title: 'Projects',
-              child: ContentManagerFoldersView(),
+    return GoRouter(
+      initialLocation: initialPath ?? '/',
+      observers: [pageRouteObserver],
+      routes: [
+        GoRoute(
+          name: LoginView.routeName,
+          path: '/',
+          pageBuilder: (_, __) => CupertinoPage(
+            key: const ValueKey(LoginView.routeName),
+            title: 'Login',
+            child: LoginView(
+              pageRouteObserver: pageRouteObserver,
             ),
-            redirect: (context, _) {
-              final loginController =
-                  Provider.of<LoginController>(context, listen: false);
-
-              // redirect to login if the user tries to navigate to
-              // authenticated content without being authenticated. This
-              // affects all routes below this route.
-              return !loginController.authenticated ? '/' : null;
-            },
-            builder: (_, __) => const ContentManagerFoldersView(),
           ),
-        ],
-      ),
-    ],
-  );
+          routes: [
+            GoRoute(
+              name: ContentManagerFoldersView.routeName,
+              path: 'folders',
+              pageBuilder: (_, __) {
+                final folderRepository = FolderRepository();
+                _contentManagerController ??=
+                    ContentManagerController(folderRepository);
+
+                return CupertinoPage(
+                  key: const ValueKey(ContentManagerFoldersView.routeName),
+                  title: 'Projects',
+                  child: ChangeNotifierProvider.value(
+                    value: _contentManagerController,
+                    child: const ContentManagerFoldersView(),
+                  ),
+                );
+              },
+              redirect: (context, _) {
+                final loginController =
+                    Provider.of<LoginController>(context, listen: false);
+
+                // redirect to login if the user tries to navigate to
+                // authenticated content without being authenticated. This
+                // affects all routes below this route.
+                return !loginController.authenticated ? '/' : null;
+              },
+              builder: (_, __) => const ContentManagerFoldersView(),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
 }
