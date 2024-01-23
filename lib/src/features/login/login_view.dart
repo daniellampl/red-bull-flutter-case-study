@@ -1,16 +1,45 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:red_bull_flutter_case_study/src/features/content-manager/content_manager_folders_view.dart';
-import 'package:red_bull_flutter_case_study/src/features/login/login_util.dart';
+import 'package:red_bull_flutter_case_study/src/features/login/login_controller.dart';
+import 'package:red_bull_flutter_case_study/src/features/login/service/login_validator.dart';
 import 'package:red_bull_flutter_case_study/src/localization/localization.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_button.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_colors.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_text_field.dart';
 
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+class LoginView extends StatefulWidget {
+  const LoginView({
+    required this.pageRouteObserver,
+    super.key,
+  });
+
+  final RouteObserver<PageRoute> pageRouteObserver;
 
   static const routeName = 'login';
+
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> with RouteAware {
+  @override
+  void didChangeDependencies() {
+    // register RouteObserver in order to listen to route changes. This is
+    // necessary in order to be able to react to the user routing back to this
+    // view to clear their authentication state.
+    widget.pageRouteObserver
+        .subscribe(this, ModalRoute.of(context)! as PageRoute);
+    super.didChangeDependencies();
+  }
+
+  @override
+  void didPopNext() {
+    // trigger logout when user routes back to login view.
+    Provider.of<LoginController>(context, listen: false).logout();
+    super.didPopNext();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +98,8 @@ class _LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<_LoginForm> {
   final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -77,18 +108,18 @@ class _LoginFormState extends State<_LoginForm> {
       child: Column(
         children: [
           RbTextFormField(
+            controller: _emailController,
             label: Text(context.l10n.login_email_label),
             leading: const Icon(CupertinoIcons.mail),
-            validator: (value) =>
-                LoginUtil.validateEmail(context.l10n, value: value),
+            validator: _emailValidator,
           ),
           const SizedBox(height: 13),
           RbTextFormField(
+            controller: _passwordController,
             label: Text(context.l10n.login_password_label),
             leading: const Icon(CupertinoIcons.lock),
             obscureText: true,
-            validator: (value) =>
-                LoginUtil.validatePassword(context.l10n, value: value),
+            validator: _passwordValidator,
           ),
           const SizedBox(height: 36),
           Align(
@@ -108,9 +139,41 @@ class _LoginFormState extends State<_LoginForm> {
     );
   }
 
+  String? _emailValidator(String? value) {
+    final validator = Provider.of<LoginValidator>(context, listen: false);
+
+    return switch (validator.validateEmail(value)) {
+      EmailValidationError.empty => context.l10n.login_email_error_empty,
+      EmailValidationError.invalid => context.l10n.login_email_error_invalid,
+      _ => null,
+    };
+  }
+
+  String? _passwordValidator(String? value) {
+    final validator = Provider.of<LoginValidator>(context, listen: false);
+
+    return switch (validator.validatePassword(value)) {
+      PasswordValidationError.empty => context.l10n.login_password_error_empty,
+      PasswordValidationError.short => context.l10n
+          .login_password_error_short(LoginValidator.defaultMinPasswordLength),
+      PasswordValidationError.long => context.l10n
+          .login_password_error_long(LoginValidator.defaultMaxPasswordLength),
+      PasswordValidationError.invalid =>
+        context.l10n.login_password_error_invalid,
+      _ => null,
+    };
+  }
+
   Future<void> _submit() async {
     if (_formKey.currentState!.validate()) {
-      GoRouter.of(context).goNamed(ContentManagerFoldersView.routeName);
+      final router = GoRouter.of(context);
+
+      await Provider.of<LoginController>(context, listen: false).login(
+        email: _emailController.value.text,
+        password: _passwordController.value.text,
+      );
+
+      router.goNamed(ContentManagerFoldersView.routeName);
     }
   }
 }
