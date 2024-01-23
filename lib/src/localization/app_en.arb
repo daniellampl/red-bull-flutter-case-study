@@ -1,3 +1,9 @@
 {
-
+  "login_title": "Login",
+  "login_subTitle": "Please sign in to continue",
+  "login_email_label": "EMAIL",
+  "login_email_error_noValue": "Enter a valid E-Mail address!",
+  "login_password_label": "PASSWORD",
+  "login_password_error_noValue": "Enter a valid password!",
+  "login_cta": "LOGIN"
 }
