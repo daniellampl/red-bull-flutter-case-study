@@ -1,7 +1,7 @@
 name: red_bull_flutter_case_study
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.0+1
+version: 0.1.1+1
 
 environment:
   sdk: '>=3.2.5 <4.0.0'
