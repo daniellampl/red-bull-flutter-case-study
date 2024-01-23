@@ -99,7 +99,9 @@ class _LoginForm extends StatefulWidget {
 class _LoginFormState extends State<_LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+  final _emailFocusNode = FocusNode();
   final _passwordController = TextEditingController();
+  final _passwordFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +111,7 @@ class _LoginFormState extends State<_LoginForm> {
         children: [
           RbTextFormField(
             controller: _emailController,
+            focusNode: _emailFocusNode,
             label: Text(context.l10n.login_email_label),
             leading: const Icon(CupertinoIcons.mail),
             validator: _emailValidator,
@@ -116,6 +119,7 @@ class _LoginFormState extends State<_LoginForm> {
           const SizedBox(height: 13),
           RbTextFormField(
             controller: _passwordController,
+            focusNode: _passwordFocusNode,
             label: Text(context.l10n.login_password_label),
             leading: const Icon(CupertinoIcons.lock),
             obscureText: true,
@@ -166,6 +170,8 @@ class _LoginFormState extends State<_LoginForm> {
 
   Future<void> _submit() async {
     if (_formKey.currentState!.validate()) {
+      _removeFocus();
+
       final router = GoRouter.of(context);
 
       await Provider.of<LoginController>(context, listen: false).login(
@@ -174,6 +180,24 @@ class _LoginFormState extends State<_LoginForm> {
       );
 
       router.goNamed(ContentManagerFoldersView.routeName);
+
+      // clear text fields after successful authentication and navigation. we
+      // have to do this manually, because this view will stay in the background
+      // even if we navigate to the next view.
+      Future.delayed(const Duration(seconds: 1)).then((value) => _resetForm());
     }
+  }
+
+  void _resetForm() {
+    _formKey.currentState!.reset();
+    _emailController.clear();
+    _passwordController.clear();
+
+    _removeFocus();
+  }
+
+  void _removeFocus() {
+    _emailFocusNode.unfocus();
+    _passwordFocusNode.unfocus();
   }
 }
