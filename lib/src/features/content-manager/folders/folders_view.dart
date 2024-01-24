@@ -32,7 +32,7 @@ class _Content extends StatefulWidget {
 class _ContentState extends State<_Content> {
   @override
   Widget build(BuildContext context) {
-    return RbScaffoldScrollView(
+    return RbScrollView(
       slivers: [
         CupertinoSliverNavigationBar(
           border: null,
@@ -148,7 +148,7 @@ class _FolderListItem extends StatelessWidget {
           Text(
             _localizeName(context.l10n),
             style: TextStyle(
-              color: RbColors.of(context).labelMedium,
+              color: RbColors.of(context).labelSecondary,
               fontSize: 18,
               fontWeight: FontWeight.w600,
               height: 1.22,

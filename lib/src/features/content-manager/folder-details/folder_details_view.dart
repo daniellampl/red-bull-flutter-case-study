@@ -11,16 +11,34 @@ import 'package:red_bull_flutter_case_study/src/widgets/rb_scaffold.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_spinner.dart';
 
 class FolderDetailsView extends StatelessWidget {
-  const FolderDetailsView({super.key});
+  const FolderDetailsView({
+    super.key,
+    this.title,
+  });
+
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
-    return const CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        border: null,
-        transitionBetweenRoutes: false,
+    return RbSheetWrapper(
+      child: Expanded(
+        child: CupertinoPageScaffold(
+          navigationBar: CupertinoNavigationBar(
+            padding: const EdgeInsetsDirectional.symmetric(horizontal: 0),
+            border: null,
+            middle: const Text('Urban'),
+            automaticallyImplyMiddle: false,
+            leading: Navigator.of(context).canPop()
+                ? CupertinoNavigationBarBackButton(
+                    previousPageTitle: context.l10n.folders_title,
+                  )
+                : null,
+            automaticallyImplyLeading: false,
+            transitionBetweenRoutes: false,
+          ),
+          child: const _Content(),
+        ),
       ),
-      child: _Content(),
     );
   }
 }
@@ -46,7 +64,7 @@ class _ContentState extends State<_Content> {
 
   @override
   Widget build(BuildContext context) {
-    return RbScaffoldScrollView(
+    return RbScrollView(
       controller: _scrollController,
       slivers: [
         const SliverPadding(
@@ -134,11 +152,7 @@ class _SliverFilesList extends StatelessWidget {
         Provider.of<FolderDetailsController>(context, listen: false);
 
     if (controller.folder != null) {
-      AppNavigator.of(context).toFile(
-        folderId: controller.folder!.id,
-        id: file.id,
-        file: file,
-      );
+      AppNavigator.of(context).toFile(file: file);
     }
   }
 }
@@ -182,7 +196,7 @@ class _FilePhotoListItem extends StatelessWidget {
                 Text(
                   file.filename,
                   style: TextStyle(
-                    color: RbColors.of(context).labelMedium,
+                    color: RbColors.of(context).labelSecondary,
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                     height: 1.06,
@@ -193,7 +207,7 @@ class _FilePhotoListItem extends StatelessWidget {
                   context.l10n.folder_details_file_duration +
                       _durationValue(context.l10n),
                   style: TextStyle(
-                    color: RbColors.of(context).labelMedium,
+                    color: RbColors.of(context).labelSecondary,
                     fontSize: 13,
                     fontWeight: FontWeight.w300,
                     height: 1.30,

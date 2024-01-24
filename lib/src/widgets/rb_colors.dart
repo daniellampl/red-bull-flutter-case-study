@@ -1,9 +1,11 @@
 import 'package:flutter/widgets.dart';
 
 const _kDefaultBackground = Color(0xFFFFFFFF);
+const _kDefaultCanvas = Color(0xFFFFFFFF);
 const _kDefaultFillsTertiary = Color(0xFFEFEFF0);
 const _kDefaultLabelsPrimary = Color(0xFF000000);
-const _lDefaultLabelMedium = Color(0xFF4A4A4A);
+const _kDefaultLabelSecondary = Color(0xFF4A4A4A);
+const _kDefaultLabelTertiary = Color(0x4D3C3C43);
 const _kDefaultPrimary = Color(0xFF022EA0);
 const _kDefaultShadow = Color(0x40000000);
 
@@ -12,17 +14,21 @@ class RbColors extends InheritedWidget {
     required super.child,
     super.key,
     this.background = _kDefaultBackground,
+    this.canvas = _kDefaultCanvas,
     this.fillsTertiary = _kDefaultFillsTertiary,
     this.labelPrimary = _kDefaultLabelsPrimary,
-    this.labelMedium = _lDefaultLabelMedium,
+    this.labelSecondary = _kDefaultLabelSecondary,
+    this.labelTertiary = _kDefaultLabelTertiary,
     this.primary = _kDefaultPrimary,
     this.shadow = _kDefaultShadow,
   });
 
   final Color background;
+  final Color canvas;
   final Color fillsTertiary;
   final Color labelPrimary;
-  final Color labelMedium;
+  final Color labelSecondary;
+  final Color labelTertiary;
   final Color primary;
   final Color shadow;
 
@@ -43,7 +49,7 @@ class RbColors extends InheritedWidget {
   bool updateShouldNotify(RbColors oldWidget) =>
       background != oldWidget.background ||
       labelPrimary != oldWidget.labelPrimary ||
-      labelMedium != oldWidget.labelMedium ||
+      labelSecondary != oldWidget.labelSecondary ||
       primary != oldWidget.primary ||
       shadow != oldWidget.shadow;
 }

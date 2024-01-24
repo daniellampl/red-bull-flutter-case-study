@@ -29,11 +29,7 @@ abstract class AppNavigatorInterface {
     FolderModel? folder,
   });
 
-  void toFile({
-    required String folderId,
-    required int id,
-    FileModel? file,
-  });
+  void toFile({required FileModel file});
 }
 
 class AppNavigator extends InheritedWidget {
@@ -143,18 +139,6 @@ class GoRouterAppNavigator implements AppNavigatorInterface {
                       ),
                     );
                   },
-                  routes: [
-                    GoRoute(
-                      name: _kFileDetailsRouteName,
-                      path: ':fileId',
-                      pageBuilder: (_, state) {
-                        // TODO: show file view
-                        return const CupertinoSheetPage(
-                            key: ValueKey(_kFileDetailsRouteName),
-                            child: FileDetailsView());
-                      },
-                    ),
-                  ],
                 ),
               ],
             ),
@@ -182,18 +166,14 @@ class GoRouterAppNavigator implements AppNavigatorInterface {
   }
 
   @override
-  void toFile({
-    required String folderId,
-    required int id,
-    FileModel? file,
-  }) {
-    _goRouter.goNamed(
-      _kFileDetailsRouteName,
-      pathParameters: {
-        'folderId': folderId,
-        'fileId': id.toString(),
-      },
-      extra: file,
+  void toFile({required FileModel file}) {
+    _navigatorKey.currentState!.push(
+      CupertinoSheetRoute(
+        showPreviousRoute: true,
+        builder: (_) => FileDetailsView(
+          file: file,
+        ),
+      ),
     );
   }
 }
