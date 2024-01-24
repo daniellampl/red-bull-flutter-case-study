@@ -27,7 +27,26 @@ class RbScaffoldScrollView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
-      slivers: slivers,
+      slivers: [
+        ...slivers,
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 63, bottom: 71),
+                child: Image(
+                  height: 45,
+                  image: AssetImage('assets/images/black_bull.png'),
+                ),
+              ),
+              SizedBox(height: MediaQuery.paddingOf(context).bottom),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

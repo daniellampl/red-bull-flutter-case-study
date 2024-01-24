@@ -15,6 +15,7 @@ class FolderModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is FolderModel &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name));
   }
 

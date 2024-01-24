@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/content_manager_controller.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/repository/model/folder_model.dart';
+import 'package:red_bull_flutter_case_study/src/features/content-manager/folder-details/folder_details_view.dart';
+import 'package:red_bull_flutter_case_study/src/features/content-manager/folders/folders_controller.dart';
+import 'package:red_bull_flutter_case_study/src/features/content-manager/folders/repository/folder_model.dart';
 import 'package:red_bull_flutter_case_study/src/localization/localization.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_colors.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_list_tile.dart';
@@ -10,10 +12,10 @@ import 'package:red_bull_flutter_case_study/src/widgets/rb_spinner.dart';
 
 const _kHorizontalPadding = EdgeInsets.symmetric(horizontal: 16);
 
-class ContentManagerFoldersView extends StatelessWidget {
-  const ContentManagerFoldersView({super.key});
+class FoldersView extends StatelessWidget {
+  const FoldersView({super.key});
 
-  static const routeName = 'content-manager-folders';
+  static const routeName = 'folders';
 
   @override
   Widget build(BuildContext context) {
@@ -31,57 +33,44 @@ class _Content extends StatefulWidget {
 }
 
 class _ContentState extends State<_Content> {
-  late final Future _foldersFuture;
-
-  @override
-  void initState() {
-    final controller = Provider.of<ContentManagerController>(
-      context,
-      listen: false,
-    );
-    _foldersFuture = controller.getFolders();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _foldersFuture,
-      builder: (_, snapshot) => CustomScrollView(
-        slivers: [
-          CupertinoSliverNavigationBar(
-            border: null,
-            largeTitle: Text(context.l10n.folders_title),
-            stretch: true,
-          ),
-          SliverMainAxisGroup(
-            slivers: [
-              const SliverPadding(
-                padding: _kHorizontalPadding,
-                sliver: SliverToBoxAdapter(
-                  // disable search field interactions since there is (yet) no
-                  // functionality behind it.
-                  child: IgnorePointer(
-                    child: CupertinoSearchTextField(),
-                  ),
+    return RbScaffoldScrollView(
+      slivers: [
+        CupertinoSliverNavigationBar(
+          border: null,
+          largeTitle: Text(context.l10n.folders_title),
+          stretch: true,
+        ),
+        SliverMainAxisGroup(
+          slivers: [
+            const SliverPadding(
+              padding: _kHorizontalPadding,
+              sliver: SliverToBoxAdapter(
+                // disable search field interactions since there is (yet) no
+                // functionality behind it.
+                child: IgnorePointer(
+                  child: CupertinoSearchTextField(),
                 ),
               ),
-              const SliverToBoxAdapter(
-                child: SizedBox(height: 15),
-              ),
-              if (snapshot.connectionState == ConnectionState.waiting)
-                const SliverToBoxAdapter(
-                  child: RbSpinner(),
-                )
-              else
-                const _SliverFoldersList(),
-              // let's ignore the error state for now. Errors should be handled
-              // as soon as we get the data from a location where errors could
-              // occur (e.g. a network request)
-            ],
-          ),
-        ],
-      ),
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 15),
+            ),
+            // let's ignore the error state for now. Errors should be handled
+            // as soon as we get the data from a location where errors could
+            // occur (e.g. a network request)
+            Selector<FoldersController, bool>(
+              selector: (_, controller) => controller.isLoading,
+              builder: (_, isLoading, __) => isLoading
+                  ? const SliverToBoxAdapter(
+                      child: RbSpinner(),
+                    )
+                  : const _SliverFoldersList(),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
@@ -93,15 +82,22 @@ class _SliverFoldersList extends StatelessWidget {
   Widget build(BuildContext context) {
     // since the folders are static (for now), we can assume, that we won't have
     // to deals with and empty list and therefore we don't have to handle it
-    return Selector<ContentManagerController, List<FolderModel>>(
+    return Selector<FoldersController, List<FolderModel>>(
       selector: (_, controller) => controller.folders,
       builder: (_, folders, __) => SliverList.separated(
         itemCount: folders.length,
-        itemBuilder: (_, index) => _FolderListItem(
-          folder: folders[index],
-          // TODO: navigate to images/videos
-          onTap: () {},
-        ),
+        itemBuilder: (_, index) {
+          final folder = folders[index];
+
+          return _FolderListItem(
+            folder: folder,
+            onTap: () => GoRouter.of(context).goNamed(
+              FoldersDetailsView.routeName,
+              extra: folder,
+              pathParameters: {'id': folder.id},
+            ),
+          );
+        },
         separatorBuilder: (_, __) => Padding(
           padding: _kHorizontalPadding,
           child: Container(

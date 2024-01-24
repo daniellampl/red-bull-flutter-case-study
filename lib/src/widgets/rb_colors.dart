@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 const _kDefaultBackground = Color(0xFFFFFFFF);
-const _kDefaultFillsTertiary = Color(0x7676801F);
+const _kDefaultFillsTertiary = Color(0xFFEFEFF0);
 const _kDefaultLabelsPrimary = Color(0xFF000000);
 const _lDefaultLabelMedium = Color(0xFF4A4A4A);
 const _kDefaultPrimary = Color(0xFF022EA0);

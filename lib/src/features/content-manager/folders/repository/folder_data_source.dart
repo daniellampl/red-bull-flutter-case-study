@@ -1,4 +1,4 @@
-import 'package:red_bull_flutter_case_study/src/features/content-manager/repository/model/folder_model.dart';
+import 'package:red_bull_flutter_case_study/src/features/content-manager/folders/repository/folder_model.dart';
 
 abstract interface class FolderDataSource {
   Future<List<FolderModel>> getAll();

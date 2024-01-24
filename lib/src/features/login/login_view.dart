@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/content_manager_folders_view.dart';
+import 'package:red_bull_flutter_case_study/src/features/content-manager/folders/folders_view.dart';
 import 'package:red_bull_flutter_case_study/src/features/login/login_controller.dart';
 import 'package:red_bull_flutter_case_study/src/features/login/service/login_validator.dart';
 import 'package:red_bull_flutter_case_study/src/localization/localization.dart';
@@ -179,7 +179,7 @@ class _LoginFormState extends State<_LoginForm> {
         password: _passwordController.value.text,
       );
 
-      router.goNamed(ContentManagerFoldersView.routeName);
+      router.goNamed(FoldersView.routeName);
 
       // clear text fields after successful authentication and navigation. we
       // have to do this manually, because this view will stay in the background

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/repository/folder_repository.dart';
+import 'package:red_bull_flutter_case_study/src/features/content-manager/folders/repository/folder_repository.dart';
 import 'package:red_bull_flutter_case_study/src/features/login/login_controller.dart';
 import 'package:red_bull_flutter_case_study/src/features/login/repository/user_credentials_repository.dart';
 import 'package:red_bull_flutter_case_study/src/features/login/service/impl/login_service.dart';

@@ -2,13 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/content_manager_controller.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/content_manager_folders_view.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/repository/folder_repository.dart';
+import 'package:red_bull_flutter_case_study/src/features/content-manager/folder-details/folder_details_view.dart';
+import 'package:red_bull_flutter_case_study/src/features/content-manager/folders/folders_controller.dart';
+import 'package:red_bull_flutter_case_study/src/features/content-manager/folders/folders_view.dart';
+import 'package:red_bull_flutter_case_study/src/features/content-manager/folders/repository/folder_model.dart';
+import 'package:red_bull_flutter_case_study/src/features/content-manager/folders/repository/folder_repository.dart';
 import 'package:red_bull_flutter_case_study/src/features/login/login_controller.dart';
 import 'package:red_bull_flutter_case_study/src/features/login/login_view.dart';
 import 'package:red_bull_flutter_case_study/src/localization/localization.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_colors.dart';
+
+import 'features/content-manager/folder-details/folder_details_controller.dart';
+import 'features/content-manager/folder-details/repository/file_repository.dart';
 
 class RedBullCaseStudyApp extends StatefulWidget {
   const RedBullCaseStudyApp({
@@ -23,7 +28,13 @@ class RedBullCaseStudyApp extends StatefulWidget {
 }
 
 class _RedBullCaseStudyAppState extends State<RedBullCaseStudyApp> {
-  ContentManagerController? _contentManagerController;
+  late final GoRouter _router;
+
+  @override
+  void initState() {
+    _router = _buildRouter(initialPath: widget.initialRoute);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,9 +64,7 @@ class _RedBullCaseStudyAppState extends State<RedBullCaseStudyApp> {
             ),
           ),
           supportedLocales: AppLocalizations.supportedLocales,
-          routerConfig: _buildRouter(
-            initialPath: widget.initialRoute,
-          ),
+          routerConfig: _router,
         ),
       ),
     );
@@ -82,22 +91,18 @@ class _RedBullCaseStudyAppState extends State<RedBullCaseStudyApp> {
           ),
           routes: [
             GoRoute(
-              name: ContentManagerFoldersView.routeName,
+              name: FoldersView.routeName,
               path: 'folders',
-              pageBuilder: (_, __) {
-                final folderRepository = FolderRepository();
-                _contentManagerController ??=
-                    ContentManagerController(folderRepository);
-
-                return CupertinoPage(
-                  key: const ValueKey(ContentManagerFoldersView.routeName),
-                  title: 'Projects',
-                  child: ChangeNotifierProvider.value(
-                    value: _contentManagerController,
-                    child: const ContentManagerFoldersView(),
+              pageBuilder: (_, __) => CupertinoPage(
+                key: const ValueKey(FoldersView.routeName),
+                title: 'Projects',
+                child: ChangeNotifierProvider(
+                  create: (_) => FoldersController(
+                    Provider.of<FolderRepository>(context),
                   ),
-                );
-              },
+                  child: const FoldersView(),
+                ),
+              ),
               redirect: (context, _) {
                 final loginController =
                     Provider.of<LoginController>(context, listen: false);
@@ -107,7 +112,26 @@ class _RedBullCaseStudyAppState extends State<RedBullCaseStudyApp> {
                 // affects all routes below this route.
                 return !loginController.authenticated ? '/' : null;
               },
-              builder: (_, __) => const ContentManagerFoldersView(),
+              routes: [
+                GoRoute(
+                  name: FoldersDetailsView.routeName,
+                  path: ':id',
+                  pageBuilder: (_, state) {
+                    return CupertinoPage(
+                      title: (state.extra as FolderModel?)?.name,
+                      key: const ValueKey(FoldersDetailsView.routeName),
+                      child: ChangeNotifierProvider(
+                        create: (_) => FolderDetailsController(
+                          FileRepository(),
+                          Provider.of<FolderRepository>(context),
+                          id: state.pathParameters['id'] as String,
+                        ),
+                        child: const FoldersDetailsView(),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         ),
