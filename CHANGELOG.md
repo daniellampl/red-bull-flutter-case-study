@@ -1,3 +1,10 @@
+## 0.3.0 
+* Implemented folder details sheet view.
+* Added infinite scroll pagination loading.
+* Add `RbSheetWrapper` for unified sheet view appearance.
+* Introduced `AppNavigator` for accessing navigation functionality throughout the app.
+* Copied the source code of the [sheet](https://pub.dev/packages/sheet) package in a separate folder and adjusted the `CupertinoSheetPage` to our needs. (e.g. the `showPrevious` parameter allows us to move a pushed sheet to the very top in order to hide the previous sheet - as seen on the folder details view). The version hosted on  pub.dev does not work with the latest flutter version.
+
 ## 0.2.0
 * Implemented folders view using a static data set
 * Added the following base widgets: `RbListTile`, `RbScaffold`, `RbScaffoldScrollView`, `RbSpinner`
