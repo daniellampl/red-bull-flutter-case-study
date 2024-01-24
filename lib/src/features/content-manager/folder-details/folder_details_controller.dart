@@ -67,10 +67,14 @@ class FolderDetailsController extends ChangeNotifier {
     // load folder if not available
     _folder ??= await _folderRepository.get(id);
 
+    final fileType = _folder!.type == FolderContentType.video
+        ? FileTypeQuery.video
+        : FileTypeQuery.photo;
+
     return _fileRepository.getPage(
       page: _page,
       size: _kItemsPerPage,
-      type: FileTypeQuery.video,
+      type: fileType,
       searchTerm: _folder!.name,
     );
   }

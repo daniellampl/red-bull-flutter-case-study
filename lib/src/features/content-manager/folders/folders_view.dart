@@ -149,7 +149,7 @@ class _FolderListItem extends StatelessWidget {
           ),
           const SizedBox(width: 29),
           Text(
-            folder.name,
+            _localizeName(context.l10n),
             style: TextStyle(
               color: RbColors.of(context).labelMedium,
               fontSize: 18,
@@ -161,5 +161,12 @@ class _FolderListItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _localizeName(AppLocalizations l10n) {
+    if (folder.type == FolderContentType.video) {
+      return l10n.folders_item_video_title(folder.name);
+    }
+    return folder.name;
   }
 }

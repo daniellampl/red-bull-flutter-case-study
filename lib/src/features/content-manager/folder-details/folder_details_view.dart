@@ -176,7 +176,7 @@ class _FilePhotoListItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Duration: ${file is VideoFileModel ? (file as VideoFileModel).duration : 'N/A'} ',
+                  _durationValue(context.l10n),
                   style: TextStyle(
                     color: RbColors.of(context).labelMedium,
                     fontSize: 13,
@@ -191,5 +191,12 @@ class _FilePhotoListItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _durationValue(AppLocalizations l10n) {
+    if (file is VideoFileModel) {
+      return (file as VideoFileModel).duration.toString();
+    }
+    return l10n.folder_details_file_duration_not_available;
   }
 }
