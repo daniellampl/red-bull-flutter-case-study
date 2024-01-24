@@ -19,26 +19,33 @@ class FolderDetailsController extends ChangeNotifier {
 
   FolderModel? _folder;
 
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
-
   List<FileModel> _files = [];
   List<FileModel> get files => _files;
 
+  bool _loading = false;
+  bool get loading => _loading;
+
+  Object? _error;
+  Object? get error => _error;
+
   Future<void> _loadFiles() async {
-    _isLoading = true;
+    _loading = true;
     notifyListeners();
 
-    // load folder if not available
-    _folder ??= await _folderRepository.get(id);
+    try {
+      // load folder if not available
+      _folder ??= await _folderRepository.get(id);
 
-    // TODO: replace with values from folder
-    _files = await _fileRepository.getPage(
-      type: FileTypeQuery.video,
-      searchTerm: _folder!.name,
-    );
-
-    _isLoading = false;
-    notifyListeners();
+      _files = await _fileRepository.getPage(
+        // TODO: replace with values from folder
+        type: FileTypeQuery.photo,
+        searchTerm: _folder!.name,
+      );
+    } catch (e) {
+      _error = e;
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
   }
 }

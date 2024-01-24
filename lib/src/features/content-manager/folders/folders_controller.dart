@@ -9,19 +9,27 @@ class FoldersController extends ChangeNotifier {
 
   final FolderRepository _folderRepository;
 
-  List<FolderModel> _folders = [];
-  List<FolderModel> get folders => _folders;
+  List<FolderModel>? _folders;
+  List<FolderModel>? get folders => _folders;
 
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
+  bool _loading = false;
+  bool get loading => _loading;
+
+  Object? _error;
+  Object? get error => _error;
 
   Future<void> _loadFolders() async {
-    _isLoading = true;
+    _loading = true;
     notifyListeners();
 
-    _folders = await _folderRepository.getAll();
-
-    _isLoading = false;
-    notifyListeners();
+    try {
+      _folders = await _folderRepository.getAll();
+      _error = null;
+    } catch (e) {
+      _error = e;
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
   }
 }

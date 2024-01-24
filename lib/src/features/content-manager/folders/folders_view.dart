@@ -60,13 +60,19 @@ class _ContentState extends State<_Content> {
             // let's ignore the error state for now. Errors should be handled
             // as soon as we get the data from a location where errors could
             // occur (e.g. a network request)
-            Selector<FoldersController, bool>(
-              selector: (_, controller) => controller.isLoading,
-              builder: (_, isLoading, __) => isLoading
-                  ? const SliverToBoxAdapter(
-                      child: RbSpinner(),
-                    )
-                  : const _SliverFoldersList(),
+            Consumer<FoldersController>(
+              builder: (_, controller, __) {
+                if (controller.loading) {
+                  return const SliverToBoxAdapter(child: RbSpinner());
+                } else if (controller.error != null) {
+                  // TODO: show error widget
+                  return const SliverToBoxAdapter(child: SizedBox());
+                } else {
+                  return _SliverFoldersList(
+                    folders: controller.folders ?? [],
+                  );
+                }
+              },
             ),
           ],
         ),
@@ -76,37 +82,43 @@ class _ContentState extends State<_Content> {
 }
 
 class _SliverFoldersList extends StatelessWidget {
-  const _SliverFoldersList();
+  const _SliverFoldersList({
+    required this.folders,
+  });
+
+  final List<FolderModel> folders;
 
   @override
   Widget build(BuildContext context) {
     // since the folders are static (for now), we can assume, that we won't have
     // to deals with and empty list and therefore we don't have to handle it
     return Selector<FoldersController, List<FolderModel>>(
-      selector: (_, controller) => controller.folders,
-      builder: (_, folders, __) => SliverList.separated(
-        itemCount: folders.length,
-        itemBuilder: (_, index) {
-          final folder = folders[index];
+      selector: (_, controller) => controller.folders ?? [],
+      builder: (_, folders, __) {
+        return SliverList.separated(
+          itemCount: folders.length,
+          itemBuilder: (_, index) {
+            final folder = folders[index];
 
-          return _FolderListItem(
-            folder: folder,
-            onTap: () => GoRouter.of(context).goNamed(
-              FoldersDetailsView.routeName,
-              extra: folder,
-              pathParameters: {'id': folder.id},
+            return _FolderListItem(
+              folder: folder,
+              onTap: () => GoRouter.of(context).goNamed(
+                FoldersDetailsView.routeName,
+                extra: folder,
+                pathParameters: {'id': folder.id},
+              ),
+            );
+          },
+          separatorBuilder: (_, __) => Padding(
+            padding: _kHorizontalPadding,
+            child: Container(
+              color: RbColors.of(context).fillsTertiary,
+              height: 0.5,
+              width: double.infinity,
             ),
-          );
-        },
-        separatorBuilder: (_, __) => Padding(
-          padding: _kHorizontalPadding,
-          child: Container(
-            color: RbColors.of(context).fillsTertiary,
-            height: 0.5,
-            width: double.infinity,
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

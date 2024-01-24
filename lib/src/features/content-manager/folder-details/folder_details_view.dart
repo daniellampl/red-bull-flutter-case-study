@@ -11,7 +11,7 @@ import 'package:red_bull_flutter_case_study/src/widgets/rb_spinner.dart';
 class FoldersDetailsView extends StatelessWidget {
   const FoldersDetailsView({super.key});
 
-  static const routeName = 'content-manager-files';
+  static const routeName = 'folder-details';
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +27,11 @@ class FoldersDetailsView extends StatelessWidget {
 
 const _kContentPadding = EdgeInsets.symmetric(horizontal: 16);
 
-class _Content extends StatefulWidget {
+class _Content extends StatelessWidget {
   const _Content();
 
   @override
-  State<_Content> createState() => _ContentState();
-}
-
-class _ContentState extends State<_Content> {
-  @override
   Widget build(BuildContext context) {
-    final controller = Provider.of<FolderDetailsController>(context);
-
     return RbScaffoldScrollView(
       slivers: [
         const SliverPadding(
@@ -49,18 +42,29 @@ class _ContentState extends State<_Content> {
             ),
           ),
         ),
-        if (controller.isLoading && controller.files.isEmpty)
-          const SliverFillRemaining(
-            child: Center(
-              child: RbSpinner(),
-            ),
-          )
-        else ...[
-          const SliverToBoxAdapter(
-            child: SizedBox(height: 15),
-          ),
-          const _SliverFilesList(),
-        ],
+        Consumer<FolderDetailsController>(
+          builder: (_, controller, __) {
+            if (controller.loading) {
+              return const SliverFillRemaining(
+                child: Center(
+                  child: RbSpinner(),
+                ),
+              );
+            } else if (controller.error != null) {
+              // TODO: handle error properly
+              return const Text('Error');
+            } else {
+              return const SliverMainAxisGroup(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: SizedBox(height: 15),
+                  ),
+                  _SliverFilesList(),
+                ],
+              );
+            }
+          },
+        ),
       ],
     );
   }
