@@ -95,7 +95,7 @@ class _CupertinoSheetDecorationBuilder extends StatelessWidget {
 class CupertinoSheetRoute<T> extends SheetRoute<T> {
   CupertinoSheetRoute({
     required WidgetBuilder builder,
-    required this.showPreviousRoute,
+    this.showPreviousSheet,
     this.backgroundColor,
     double initialStop = 1,
     super.fit,
@@ -115,7 +115,7 @@ class CupertinoSheetRoute<T> extends SheetRoute<T> {
         );
 
   final Color? backgroundColor;
-  final bool showPreviousRoute;
+  final bool? showPreviousSheet;
 
   @override
   bool get draggable => true;
@@ -221,7 +221,7 @@ class CupertinoSheetRoute<T> extends SheetRoute<T> {
       body: child,
       secondaryAnimation: secondaryAnimation,
       sheetAnimation: delayAnimation,
-      visible: showPreviousRoute,
+      visible: showPreviousSheet ?? true,
     );
   }
 }
@@ -234,8 +234,8 @@ class CupertinoSheetBottomRouteTransition extends StatelessWidget {
     required this.sheetAnimation,
     required this.secondaryAnimation,
     required this.body,
+    required this.visible,
     this.backgroundColor,
-    this.visible = true,
   });
 
   final Color? backgroundColor;
@@ -335,7 +335,7 @@ class CupertinoSheetPage<T> extends Page<T> {
     super.key,
     this.maintainState = true,
     super.name,
-    this.showPreviousRoute = true,
+    this.showPreviousSheet = true,
   });
 
   final Color? backgroundColor;
@@ -348,14 +348,14 @@ class CupertinoSheetPage<T> extends Page<T> {
 
   /// Determines whether the pushed card top offset should be bigger so that the
   /// previous route is visible in the background.
-  final bool showPreviousRoute;
+  final bool showPreviousSheet;
 
   @override
   Route<T> createRoute(BuildContext context) {
     return _PageBasedCupertinoSheetRoute<T>(
       backgroundColor: backgroundColor,
       page: this,
-      showPreviousRoute: showPreviousRoute,
+      showPreviousSheet: showPreviousSheet,
     );
   }
 }
@@ -367,7 +367,7 @@ class CupertinoSheetPage<T> extends Page<T> {
 class _PageBasedCupertinoSheetRoute<T> extends CupertinoSheetRoute<T> {
   _PageBasedCupertinoSheetRoute({
     required CupertinoSheetPage<T> page,
-    required super.showPreviousRoute,
+    required super.showPreviousSheet,
     super.backgroundColor,
     super.initialStop,
     super.maintainState,

@@ -55,7 +55,6 @@ class AppNavigator extends InheritedWidget {
 const _kLoginRouteName = 'login';
 const _kFoldersRouteName = 'folders';
 const _kFolderDetailsRouteName = 'folder-details';
-const _kFileDetailsRouteName = 'file-details';
 
 class GoRouterAppNavigator implements AppNavigatorInterface {
   GoRouterAppNavigator({
@@ -128,7 +127,10 @@ class GoRouterAppNavigator implements AppNavigatorInterface {
                     return CupertinoSheetPage(
                       backgroundColor: RbColors.of(context).primary,
                       key: const ValueKey(_kFolderDetailsRouteName),
-                      showPreviousRoute: false,
+                      showPreviousSheet: false,
+                      // every route get its own controller which means that
+                      // when the route gets disposed, the controller also gets
+                      // disposed.
                       child: ChangeNotifierProvider(
                         create: (_) => FolderDetailsController(
                           FileRepository(),
@@ -167,9 +169,13 @@ class GoRouterAppNavigator implements AppNavigatorInterface {
 
   @override
   void toFile({required FileModel file}) {
+    // we push this route, because we cannot reconstruct the data via the routes
+    // url. Pixabay does not provide an endpoint for fetching a specific file
+    // (e.g. by id). Therefore, directly navigating to this view would not work
+    // and always requires the folder details view first.
     _navigatorKey.currentState!.push(
       CupertinoSheetRoute(
-        showPreviousRoute: true,
+        showPreviousSheet: true,
         builder: (_) => FileDetailsView(
           file: file,
         ),
