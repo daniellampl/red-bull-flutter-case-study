@@ -20,7 +20,9 @@ class FolderDetailsController extends ChangeNotifier {
   final String id;
 
   int _page = 1;
+
   FolderModel? _folder;
+  FolderModel? get folder => _folder;
 
   /// We assume that we reached the end if a page response has less items than
   /// requested.

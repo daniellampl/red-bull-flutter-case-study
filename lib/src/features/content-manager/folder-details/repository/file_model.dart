@@ -16,7 +16,7 @@ abstract class FileModel {
   final Uri url;
   final int width;
 
-  String get filename => url.path.split('/').last;
+  String get filename;
 }
 
 @immutable
@@ -37,6 +37,9 @@ class PhotoFileModel extends FileModel {
         thumbnail: Uri.parse(json['previewURL'] as String),
         width: json['imageWidth'] as int,
       );
+
+  @override
+  String get filename => thumbnail.path.split('/').last;
 
   @override
   bool operator ==(Object other) {
@@ -78,6 +81,9 @@ class VideoFileModel extends FileModel {
       );
 
   final Duration duration;
+
+  @override
+  String get filename => url.path.split('/').last;
 
   @override
   bool operator ==(Object other) {

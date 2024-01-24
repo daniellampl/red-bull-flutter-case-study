@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/folders/folders_view.dart';
 import 'package:red_bull_flutter_case_study/src/features/login/login_controller.dart';
 import 'package:red_bull_flutter_case_study/src/features/login/service/login_validator.dart';
 import 'package:red_bull_flutter_case_study/src/localization/localization.dart';
+import 'package:red_bull_flutter_case_study/src/navigation.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_button.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_colors.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_text_field.dart';
@@ -16,8 +15,6 @@ class LoginView extends StatefulWidget {
   });
 
   final RouteObserver<PageRoute> pageRouteObserver;
-
-  static const routeName = 'login';
 
   @override
   State<LoginView> createState() => _LoginViewState();
@@ -172,14 +169,14 @@ class _LoginFormState extends State<_LoginForm> {
     if (_formKey.currentState!.validate()) {
       _removeFocus();
 
-      final router = GoRouter.of(context);
+      final navigator = AppNavigator.of(context);
 
       await Provider.of<LoginController>(context, listen: false).login(
         email: _emailController.value.text,
         password: _passwordController.value.text,
       );
 
-      router.goNamed(FoldersView.routeName);
+      navigator.toFolders();
 
       // clear text fields after successful authentication and navigation. we
       // have to do this manually, because this view will stay in the background

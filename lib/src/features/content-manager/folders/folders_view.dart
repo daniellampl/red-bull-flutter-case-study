@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/folder-details/folder_details_view.dart';
 import 'package:red_bull_flutter_case_study/src/features/content-manager/folders/folders_controller.dart';
 import 'package:red_bull_flutter_case_study/src/features/content-manager/folders/repository/folder_model.dart';
 import 'package:red_bull_flutter_case_study/src/localization/localization.dart';
+import 'package:red_bull_flutter_case_study/src/navigation.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_colors.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_list_tile.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_scaffold.dart';
@@ -14,8 +13,6 @@ const _kHorizontalPadding = EdgeInsets.symmetric(horizontal: 16);
 
 class FoldersView extends StatelessWidget {
   const FoldersView({super.key});
-
-  static const routeName = 'folders';
 
   @override
   Widget build(BuildContext context) {
@@ -102,11 +99,7 @@ class _SliverFoldersList extends StatelessWidget {
 
             return _FolderListItem(
               folder: folder,
-              onTap: () => GoRouter.of(context).goNamed(
-                FoldersDetailsView.routeName,
-                extra: folder,
-                pathParameters: {'id': folder.id},
-              ),
+              onTap: () => _navigateToFolderDetails(context, folder),
             );
           },
           separatorBuilder: (_, __) => Padding(
@@ -120,6 +113,10 @@ class _SliverFoldersList extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _navigateToFolderDetails(BuildContext context, FolderModel folder) {
+    AppNavigator.of(context).toFolderDetails(id: folder.id, folder: folder);
   }
 }
 

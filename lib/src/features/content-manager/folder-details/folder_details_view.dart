@@ -4,15 +4,14 @@ import 'package:provider/provider.dart';
 import 'package:red_bull_flutter_case_study/src/features/content-manager/folder-details/folder_details_controller.dart';
 import 'package:red_bull_flutter_case_study/src/features/content-manager/folder-details/repository/file_model.dart';
 import 'package:red_bull_flutter_case_study/src/localization/localization.dart';
+import 'package:red_bull_flutter_case_study/src/navigation.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_colors.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_list_tile.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_scaffold.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_spinner.dart';
 
-class FoldersDetailsView extends StatelessWidget {
-  const FoldersDetailsView({super.key});
-
-  static const routeName = 'folder-details';
+class FolderDetailsView extends StatelessWidget {
+  const FolderDetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -102,23 +101,22 @@ class _ContentState extends State<_Content> {
 
 const _kImageDimension = 65.0;
 
-class _SliverFilesList extends StatefulWidget {
+class _SliverFilesList extends StatelessWidget {
   const _SliverFilesList();
 
-  @override
-  State<_SliverFilesList> createState() => _SliverFilesListState();
-}
-
-class _SliverFilesListState extends State<_SliverFilesList> {
   @override
   Widget build(BuildContext context) {
     return Selector<FolderDetailsController, List<FileModel>>(
       selector: (_, controller) => controller.files ?? [],
       builder: (_, files, __) => SliverList.separated(
         itemCount: files.length,
-        itemBuilder: (_, index) => _FilePhotoListItem(
-          file: files[index],
-        ),
+        itemBuilder: (_, index) {
+          final file = files[index];
+          return _FilePhotoListItem(
+            file: file,
+            onTap: () => _navigateToFile(context, file),
+          );
+        },
         separatorBuilder: (_, __) => Padding(
           padding: _kContentPadding,
           child: Container(
@@ -130,19 +128,35 @@ class _SliverFilesListState extends State<_SliverFilesList> {
       ),
     );
   }
+
+  void _navigateToFile(BuildContext context, FileModel file) {
+    final controller =
+        Provider.of<FolderDetailsController>(context, listen: false);
+
+    if (controller.folder != null) {
+      AppNavigator.of(context).toFile(
+        folderId: controller.folder!.id,
+        id: file.id,
+        file: file,
+      );
+    }
+  }
 }
 
 class _FilePhotoListItem extends StatelessWidget {
   const _FilePhotoListItem({
     required this.file,
+    this.onTap,
   });
 
   final FileModel file;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return RbListTile(
       innerPadding: const EdgeInsets.symmetric(vertical: 15),
+      onTap: onTap,
       outerPadding: _kContentPadding,
       child: Row(
         children: [
@@ -176,7 +190,8 @@ class _FilePhotoListItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  _durationValue(context.l10n),
+                  context.l10n.folder_details_file_duration +
+                      _durationValue(context.l10n),
                   style: TextStyle(
                     color: RbColors.of(context).labelMedium,
                     fontSize: 13,
@@ -196,7 +211,8 @@ class _FilePhotoListItem extends StatelessWidget {
   String _durationValue(AppLocalizations l10n) {
     if (file is VideoFileModel) {
       return (file as VideoFileModel).duration.toString();
+    } else {
+      return l10n.folder_details_file_duration_not_available;
     }
-    return l10n.folder_details_file_duration_not_available;
   }
 }
