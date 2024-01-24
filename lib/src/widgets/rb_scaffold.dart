@@ -19,14 +19,17 @@ class RbScaffold extends StatelessWidget {
 class RbScaffoldScrollView extends StatelessWidget {
   const RbScaffoldScrollView({
     required this.slivers,
+    this.controller,
     super.key,
   });
 
+  final ScrollController? controller;
   final List<Widget> slivers;
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      controller: controller,
       slivers: [
         ...slivers,
         SliverFillRemaining(

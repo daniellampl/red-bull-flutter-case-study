@@ -11,13 +11,23 @@ class FileRepository {
   final FileDataSource _dataSource;
 
   Future<List<FileModel>> getPage({
+    required int page,
+    required int size,
     required FileTypeQuery type,
     String? searchTerm,
   }) async {
     if (type == FileTypeQuery.photo) {
-      return await _dataSource.searchPhotos(searchTerm: searchTerm);
+      return await _dataSource.searchPhotos(
+        page: page,
+        size: size,
+        searchTerm: searchTerm,
+      );
     } else {
-      return await _dataSource.searchVideos(searchTerm: searchTerm);
+      return await _dataSource.searchVideos(
+        page: page,
+        size: size,
+        searchTerm: searchTerm,
+      );
     }
   }
 }

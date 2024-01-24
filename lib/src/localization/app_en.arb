@@ -26,5 +26,6 @@
   },
   "login_password_error_invalid": "This is not a valid password!",
   "login_cta": "LOGIN",
-  "folders_title": "Project Folder"
+  "folders_title": "Project Folder",
+  "folder_details_error_unknown": "An unknown while loading files occurred!"
 }

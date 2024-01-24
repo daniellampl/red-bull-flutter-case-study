@@ -8,9 +8,17 @@ import 'package:red_bull_flutter_case_study/src/features/content-manager/folders
 const _kPixabayApiBaseUrl = 'pixabay.com';
 
 abstract interface class FileDataSource {
-  Future<List<PhotoFileModel>> searchPhotos({String? searchTerm});
+  Future<List<PhotoFileModel>> searchPhotos({
+    int? page,
+    int? size,
+    String? searchTerm,
+  });
 
-  Future<List<VideoFileModel>> searchVideos({String? searchTerm});
+  Future<List<VideoFileModel>> searchVideos({
+    int? page,
+    int? size,
+    String? searchTerm,
+  });
 }
 
 /// An implementation of [FolderDataSource] that return static [FolderModel]
@@ -24,9 +32,13 @@ class PixabayFileDataSource implements FileDataSource {
 
   @override
   Future<List<PhotoFileModel>> searchPhotos({
+    int? page,
+    int? size,
     String? searchTerm,
   }) async {
     final response = await _pixabayClient.get(_buildApiUrl(
+      page: page,
+      perPage: size,
       q: searchTerm,
     ));
 
@@ -36,10 +48,14 @@ class PixabayFileDataSource implements FileDataSource {
 
   @override
   Future<List<VideoFileModel>> searchVideos({
+    int? page,
+    int? size,
     String? searchTerm,
   }) async {
     final response = await _pixabayClient.get(_buildApiUrl(
+      page: page,
       path: 'videos',
+      perPage: size,
       q: searchTerm,
     ));
 
@@ -48,11 +64,15 @@ class PixabayFileDataSource implements FileDataSource {
   }
 
   Uri _buildApiUrl({
+    int? page,
     String path = '',
+    int? perPage,
     String? q,
   }) {
     return Uri.https(_kPixabayApiBaseUrl, 'api/$path', {
       'key': const String.fromEnvironment('PIXABAY_API_KEY'),
+      if (page != null) 'page': page.toString(),
+      if (perPage != null) 'per_page': perPage.toString(),
       if (q != null) 'q': q.replaceAll(' ', '+'),
     });
   }
