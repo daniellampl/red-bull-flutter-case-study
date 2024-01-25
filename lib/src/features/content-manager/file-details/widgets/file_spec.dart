@@ -42,7 +42,7 @@ class CreationDateFileSpec extends StatelessWidget {
     return FileSpec(
       title: context.l10n.file_createdAt,
       value: creationDate != null
-          ? DateFormat.yMMMd().format(creationDate!)
+          ? DateFormat.yMd().format(creationDate!)
           : context.l10n.file_createdAt_notAvailable,
     );
   }

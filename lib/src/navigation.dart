@@ -136,6 +136,7 @@ class GoRouterAppNavigator implements AppNavigatorInterface {
                           FileRepository(),
                           Provider.of<FolderRepository>(context),
                           id: state.pathParameters['folderId'] as String,
+                          folder: (state.extra as FolderModel),
                         ),
                         child: const FolderDetailsView(),
                       ),

@@ -21,6 +21,7 @@ class FileDetailIcons extends StatelessWidget {
     return IconTheme(
       data: IconThemeData(color: iconColor),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             _typeIcon,

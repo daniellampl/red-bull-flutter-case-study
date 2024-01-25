@@ -15,31 +15,34 @@ import 'package:red_bull_flutter_case_study/src/widgets/rb_spinner.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_typography.dart';
 
 class FolderDetailsView extends StatelessWidget {
-  const FolderDetailsView({
-    super.key,
-    this.title,
-  });
-
-  final String? title;
+  const FolderDetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return RbSheetWrapper(
-      child: CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
-          padding: const EdgeInsetsDirectional.symmetric(horizontal: 0),
-          border: null,
-          middle: const Text('Urban'),
-          automaticallyImplyMiddle: false,
-          leading: Navigator.of(context).canPop()
-              ? CupertinoNavigationBarBackButton(
-                  previousPageTitle: context.l10n.folders_title,
-                )
-              : null,
-          automaticallyImplyLeading: false,
-          transitionBetweenRoutes: false,
+    // wait until folder is loaded and present its name as the title of this
+    // page. This is needed in order to navigate to this page without knowing
+    // about the folders data. The controller receives the folder's id (and
+    // optionally the folder directly e.g.if the user comes from the folder
+    // list view) via the url that lead to this view.
+    return Selector<FolderDetailsController, String?>(
+      selector: (_, controller) => controller.folder?.name,
+      builder: (_, title, __) => RbSheetWrapper(
+        child: CupertinoPageScaffold(
+          navigationBar: CupertinoNavigationBar(
+            padding: const EdgeInsetsDirectional.symmetric(horizontal: 0),
+            border: null,
+            middle: title != null ? Text(title) : null,
+            automaticallyImplyMiddle: false,
+            leading: Navigator.of(context).canPop()
+                ? CupertinoNavigationBarBackButton(
+                    previousPageTitle: context.l10n.folders_title,
+                  )
+                : null,
+            automaticallyImplyLeading: false,
+            transitionBetweenRoutes: false,
+          ),
+          child: const _Content(),
         ),
-        child: const _Content(),
       ),
     );
   }

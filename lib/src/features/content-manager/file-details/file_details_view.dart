@@ -3,6 +3,7 @@ import 'package:red_bull_flutter_case_study/src/features/content-manager/file-de
 import 'package:red_bull_flutter_case_study/src/features/content-manager/file-details/widgets/file_spec.dart';
 import 'package:red_bull_flutter_case_study/src/features/content-manager/folder-details/repository/file_model.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/network_file.dart';
+import 'package:red_bull_flutter_case_study/src/widgets/rb_colors.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_scaffold.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_typography.dart';
 
@@ -37,26 +38,27 @@ class FileDetailsView extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(25)),
-                      child: AspectRatio(
-                        aspectRatio: file.aspectRatio,
-                        child: file is VideoFileModel
-                            ? RbNetworkVideo(url: file.url)
-                            : RbNetworkImage(url: file.url),
-                      ),
-                    ),
-                    const SizedBox(height: 34.0),
+                    _FilePreview(file: file),
+                    const SizedBox(height: 20.0),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: DefaultTextStyle(
                         style: textSmallOf(context),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Column(
+                          // forces Wrap expand to the maximum available width
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            CreationDateFileSpec(DateTime.now()),
-                            DurationFileSpec(_duration),
-                            FileDetailIcons(file: file),
+                            Wrap(
+                              spacing: 16,
+                              runSpacing: 6,
+                              alignment: WrapAlignment.spaceBetween,
+                              runAlignment: WrapAlignment.center,
+                              children: [
+                                DurationFileSpec(_duration),
+                                CreationDateFileSpec(DateTime.now()),
+                                FileDetailIcons(file: file),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -66,6 +68,41 @@ class FileDetailsView extends StatelessWidget {
               ),
             )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+const _kFilePreviewBorderRadius = BorderRadius.all(Radius.circular(25));
+
+class _FilePreview extends StatelessWidget {
+  const _FilePreview({
+    required this.file,
+  });
+
+  final FileModel file;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: _kFilePreviewBorderRadius,
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 4,
+            color: RbColors.of(context).shadow,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: _kFilePreviewBorderRadius,
+        child: AspectRatio(
+          aspectRatio: file.aspectRatio,
+          child: file is VideoFileModel
+              ? RbNetworkVideo(url: file.url)
+              : RbNetworkImage(url: file.url),
         ),
       ),
     );

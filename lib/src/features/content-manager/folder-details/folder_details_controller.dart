@@ -11,7 +11,8 @@ class FolderDetailsController extends ChangeNotifier {
     this._fileRepository,
     this._folderRepository, {
     required this.id,
-  }) {
+    FolderModel? folder,
+  }) : _folder = folder {
     _load();
   }
 
@@ -67,7 +68,7 @@ class FolderDetailsController extends ChangeNotifier {
 
   Future<List<FileModel>> _fetchFilesPage(int page) async {
     // load folder if not available
-    _folder ??= await _folderRepository.get(id);
+    await _loadFolderIfNecessary();
 
     final fileType = _folder!.type == FolderContentType.video
         ? FileTypeQuery.video
@@ -79,5 +80,12 @@ class FolderDetailsController extends ChangeNotifier {
       type: fileType,
       searchTerm: _folder!.name,
     );
+  }
+
+  Future<void> _loadFolderIfNecessary() async {
+    if (_folder == null) {
+      _folder = await _folderRepository.get(id);
+      notifyListeners();
+    }
   }
 }
