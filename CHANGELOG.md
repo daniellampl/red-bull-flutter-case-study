@@ -1,3 +1,8 @@
+## 1.0.0
+* App is ready for presentation 🚀
+* Updated app icon
+* Updated app display name to "Case Study"
+
 ## 0.4.2
 * Added error handling on failed image or video loading
 
