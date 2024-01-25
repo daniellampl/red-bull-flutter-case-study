@@ -22,6 +22,14 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> with RouteAware {
+  late Key _formKey;
+
+  @override
+  void initState() {
+    _updateFormKey();
+    super.initState();
+  }
+
   @override
   void didChangeDependencies() {
     // register RouteObserver in order to listen to route changes. This is
@@ -30,6 +38,16 @@ class _LoginViewState extends State<LoginView> with RouteAware {
     widget.pageRouteObserver
         .subscribe(this, ModalRoute.of(context)! as PageRoute);
     super.didChangeDependencies();
+  }
+
+  @override
+  void didPushNext() {
+    // because this view will stay in the background even if we navigate to the
+    // next view, we have to reset the form so that if the user navigates back
+    // to this view they will find a fresh form.
+    Future.delayed(const Duration(milliseconds: 500))
+        .then((value) => _updateFormKey());
+    super.didPush();
   }
 
   @override
@@ -67,7 +85,7 @@ class _LoginViewState extends State<LoginView> with RouteAware {
               ),
             ),
             const SizedBox(height: 28),
-            const _LoginForm(),
+            _LoginForm(key: _formKey),
             const Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
@@ -85,10 +103,15 @@ class _LoginViewState extends State<LoginView> with RouteAware {
       ),
     );
   }
+
+  void _updateFormKey() {
+    _formKey = UniqueKey();
+    setState(() {});
+  }
 }
 
 class _LoginForm extends StatefulWidget {
-  const _LoginForm();
+  const _LoginForm({super.key});
 
   @override
   State<_LoginForm> createState() => _LoginFormState();
@@ -178,20 +201,7 @@ class _LoginFormState extends State<_LoginForm> {
       );
 
       navigator.toFolders();
-
-      // clear text fields after successful authentication and navigation. we
-      // have to do this manually, because this view will stay in the background
-      // even if we navigate to the next view.
-      Future.delayed(const Duration(seconds: 1)).then((value) => _resetForm());
     }
-  }
-
-  void _resetForm() {
-    _formKey.currentState!.reset();
-    _emailController.clear();
-    _passwordController.clear();
-
-    _removeFocus();
   }
 
   void _removeFocus() {
