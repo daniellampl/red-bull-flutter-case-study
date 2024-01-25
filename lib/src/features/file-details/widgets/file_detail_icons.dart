@@ -16,7 +16,7 @@ class FileDetailIcons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconColor = RbColors.of(context).fillsSecondary;
+    final iconColor = RbColors.of(context).fillsPrimary;
 
     return IconTheme(
       data: IconThemeData(color: iconColor),
@@ -38,7 +38,7 @@ class FileDetailIcons extends StatelessWidget {
           if (file is VideoFileModel && _videoResolutionIcon != null) ...[
             Icon(
               _videoResolutionIcon,
-              color: RbColors.of(context).fillsSecondary,
+              color: RbColors.of(context).fillsPrimary,
               size: _kIconSize,
             )
           ],

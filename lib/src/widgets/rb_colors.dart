@@ -1,9 +1,8 @@
 import 'package:flutter/widgets.dart';
 
 const _kDefaultBackground = Color(0xFFFFFFFF);
-const _kDefaultCanvas = Color(0xFFFFFFFF);
-const _kDefaultFillSecondary = Color(0xFF666666);
-const _kDefaultFillsTertiary = Color(0xFFEFEFF0);
+const _kDefaultFillPrimary = Color(0xFF666666);
+const _kDefaultFillsSecondary = Color(0xFFEFEFF0);
 const _kDefaultLabelsPrimary = Color(0xFF000000);
 const _kDefaultLabelSecondary = Color(0xFF4A4A4A);
 const _kDefaultLabelTertiary = Color(0x4D3C3C43);
@@ -15,9 +14,8 @@ class RbColors extends InheritedWidget {
     required super.child,
     super.key,
     this.background = _kDefaultBackground,
-    this.canvas = _kDefaultCanvas,
-    this.fillsSecondary = _kDefaultFillSecondary,
-    this.fillsTertiary = _kDefaultFillsTertiary,
+    this.fillsPrimary = _kDefaultFillPrimary,
+    this.fillsSecondary = _kDefaultFillsSecondary,
     this.labelPrimary = _kDefaultLabelsPrimary,
     this.labelSecondary = _kDefaultLabelSecondary,
     this.labelTertiary = _kDefaultLabelTertiary,
@@ -26,9 +24,8 @@ class RbColors extends InheritedWidget {
   });
 
   final Color background;
-  final Color canvas;
+  final Color fillsPrimary;
   final Color fillsSecondary;
-  final Color fillsTertiary;
   final Color labelPrimary;
   final Color labelSecondary;
   final Color labelTertiary;

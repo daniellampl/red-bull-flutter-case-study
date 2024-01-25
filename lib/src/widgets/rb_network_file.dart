@@ -32,7 +32,7 @@ class RbNetworkImage extends StatelessWidget {
       imageUrl: url.toString(),
       errorWidget: (_, value, __) => _Error(message: value),
       placeholder: (_, __) => ColoredBox(
-        color: RbColors.of(context).fillsTertiary,
+        color: RbColors.of(context).fillsSecondary,
       ),
     );
   }
@@ -107,7 +107,7 @@ class _VideoLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: RbColors.of(context).fillsTertiary,
+      color: RbColors.of(context).fillsSecondary,
       child: const Center(
         child: RbSpinner(),
       ),
@@ -141,7 +141,7 @@ class _Error extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: RbColors.of(context).fillsTertiary,
+      color: RbColors.of(context).fillsSecondary,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Center(

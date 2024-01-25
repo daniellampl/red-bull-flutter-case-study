@@ -153,7 +153,7 @@ class _SliverFilesList extends StatelessWidget {
           child: Container(
             width: double.infinity,
             height: 0.5,
-            color: RbColors.of(context).fillsTertiary,
+            color: RbColors.of(context).fillsSecondary,
           ),
         ),
       ),
@@ -227,7 +227,7 @@ class _FileListItem extends StatelessWidget {
           ),
           Icon(
             RbIcons.playFilled,
-            color: RbColors.of(context).fillsSecondary,
+            color: RbColors.of(context).fillsPrimary,
             size: 25,
           )
         ],

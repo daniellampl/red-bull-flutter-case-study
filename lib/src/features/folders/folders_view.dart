@@ -109,7 +109,7 @@ class _SliverFoldersList extends StatelessWidget {
           separatorBuilder: (_, __) => Padding(
             padding: _kHorizontalPadding,
             child: Container(
-              color: RbColors.of(context).fillsTertiary,
+              color: RbColors.of(context).fillsSecondary,
               height: 0.5,
               width: double.infinity,
             ),

@@ -12,7 +12,6 @@ class RbScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      backgroundColor: RbColors.of(context).canvas,
       child: child,
     );
   }
@@ -29,7 +28,7 @@ class RbSheetWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: RbColors.of(context).canvas,
+      color: RbColors.of(context).background,
       child: Column(
         children: [
           const Padding(
