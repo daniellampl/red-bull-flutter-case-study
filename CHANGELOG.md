@@ -1,3 +1,6 @@
+## 0.4.1
+* Fixed authenticated state doesn't get updated properly after successful login
+
 ## 0.4.0
 * Implemented file details view
 * Added video player for video files
