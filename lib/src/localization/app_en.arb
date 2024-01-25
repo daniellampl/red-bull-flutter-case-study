@@ -37,6 +37,7 @@
   },
 
   "folder_details_error_unknown": "An unknown while loading files occurred!\nClick to retry!",
+  "file_details_video_error_unknown": "An unknown while loading video source occurred!",
   "file_duration": "Duration",
   "file_duration_notAvailable": "N/A",
   "file_createdAt": "Created at",
