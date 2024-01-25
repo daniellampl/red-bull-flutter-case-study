@@ -25,7 +25,7 @@ Make sure to set them before running the app by passing them via `--dart-define`
 ```
 
 ### Download
-Don't want to set up the app for development or build it on your local machine? I got you covered! You can download a fresh build from [Firebase App Distribution](https://firebase.com). 🔥
+Don't want to set up the app for development or build it on your local machine? I got you covered! You can download a fresh Android build from [Google Drive](https://drive.google.com/drive/folders/1DTiVM2MQKAS_FdA7y_q8-8DX0lEoaa6N?usp=sharing). 🔥
 
 ---
 
