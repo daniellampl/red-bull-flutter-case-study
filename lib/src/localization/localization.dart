@@ -3,6 +3,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 export 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-extension AppLocalizationsContextX on BuildContext {
+extension ApplocalizationsContentX on BuildContext {
   AppLocalizations get l10n => AppLocalizations.of(this);
 }

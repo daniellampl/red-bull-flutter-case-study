@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/file/file_details_view.dart';
+import 'package:red_bull_flutter_case_study/src/features/content-manager/file-details/file_details_view.dart';
 import 'package:red_bull_flutter_case_study/src/features/content-manager/folder-details/folder_details_controller.dart';
 import 'package:red_bull_flutter_case_study/src/features/content-manager/folder-details/folder_details_view.dart';
 import 'package:red_bull_flutter_case_study/src/features/content-manager/folder-details/repository/file_model.dart';

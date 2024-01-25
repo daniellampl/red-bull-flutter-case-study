@@ -1,14 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import 'package:red_bull_flutter_case_study/src/features/content-manager/file-details/widgets/file_detail_icons.dart';
+import 'package:red_bull_flutter_case_study/src/features/content-manager/file-details/widgets/file_spec.dart';
 import 'package:red_bull_flutter_case_study/src/features/content-manager/folder-details/folder_details_controller.dart';
 import 'package:red_bull_flutter_case_study/src/features/content-manager/folder-details/repository/file_model.dart';
 import 'package:red_bull_flutter_case_study/src/localization/localization.dart';
 import 'package:red_bull_flutter_case_study/src/navigation.dart';
+import 'package:red_bull_flutter_case_study/src/widgets/network_file.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_colors.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_list_tile.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_scaffold.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_spinner.dart';
+import 'package:red_bull_flutter_case_study/src/widgets/rb_typography.dart';
 
 class FolderDetailsView extends StatelessWidget {
   const FolderDetailsView({
@@ -21,23 +24,21 @@ class FolderDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RbSheetWrapper(
-      child: Expanded(
-        child: CupertinoPageScaffold(
-          navigationBar: CupertinoNavigationBar(
-            padding: const EdgeInsetsDirectional.symmetric(horizontal: 0),
-            border: null,
-            middle: const Text('Urban'),
-            automaticallyImplyMiddle: false,
-            leading: Navigator.of(context).canPop()
-                ? CupertinoNavigationBarBackButton(
-                    previousPageTitle: context.l10n.folders_title,
-                  )
-                : null,
-            automaticallyImplyLeading: false,
-            transitionBetweenRoutes: false,
-          ),
-          child: const _Content(),
+      child: CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: 0),
+          border: null,
+          middle: const Text('Urban'),
+          automaticallyImplyMiddle: false,
+          leading: Navigator.of(context).canPop()
+              ? CupertinoNavigationBarBackButton(
+                  previousPageTitle: context.l10n.folders_title,
+                )
+              : null,
+          automaticallyImplyLeading: false,
+          transitionBetweenRoutes: false,
         ),
+        child: const _Content(),
       ),
     );
   }
@@ -84,7 +85,9 @@ class _ContentState extends State<_Content> {
                   child: SizedBox(
                     height: 50,
                     child: controller.loading
-                        ? const RbSpinner()
+                        ? const Center(
+                            child: RbSpinner(),
+                          )
                         : Center(
                             child:
                                 Text(context.l10n.folder_details_error_unknown),
@@ -130,7 +133,7 @@ class _SliverFilesList extends StatelessWidget {
         itemCount: files.length,
         itemBuilder: (_, index) {
           final file = files[index];
-          return _FilePhotoListItem(
+          return _FileListItem(
             file: file,
             onTap: () => _navigateToFile(context, file),
           );
@@ -157,14 +160,17 @@ class _SliverFilesList extends StatelessWidget {
   }
 }
 
-class _FilePhotoListItem extends StatelessWidget {
-  const _FilePhotoListItem({
+class _FileListItem extends StatelessWidget {
+  const _FileListItem({
     required this.file,
     this.onTap,
   });
 
   final FileModel file;
   final Function()? onTap;
+
+  Duration? get _duration =>
+      file is VideoFileModel ? (file as VideoFileModel).duration : null;
 
   @override
   Widget build(BuildContext context) {
@@ -178,12 +184,8 @@ class _FilePhotoListItem extends StatelessWidget {
             dimension: _kImageDimension,
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(8)),
-              child: CachedNetworkImage(
-                imageUrl: file.thumbnail.toString(),
-                placeholder: (_, __) => ColoredBox(
-                  color: RbColors.of(context).fillsTertiary,
-                ),
-                fit: BoxFit.cover,
+              child: RbNetworkImage(
+                url: file.thumbnail,
               ),
             ),
           ),
@@ -195,38 +197,31 @@ class _FilePhotoListItem extends StatelessWidget {
               children: [
                 Text(
                   file.filename,
-                  style: TextStyle(
-                    color: RbColors.of(context).labelSecondary,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    height: 1.06,
-                    letterSpacing: -0.4,
+                  style: titleSmallOf(context),
+                ),
+                DefaultTextStyle(
+                  style: textSmallOf(context),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      DurationFileSpec(_duration),
+                      // TODO: use value from file
+                      CreationDateFileSpec(DateTime.now())
+                    ],
                   ),
                 ),
-                Text(
-                  context.l10n.folder_details_file_duration +
-                      _durationValue(context.l10n),
-                  style: TextStyle(
-                    color: RbColors.of(context).labelSecondary,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w300,
-                    height: 1.30,
-                    letterSpacing: -0.4,
-                  ),
-                ),
+                FileDetailIcons(file: file)
               ],
             ),
+          ),
+          Icon(
+            CupertinoIcons.play_circle_fill,
+            color: RbColors.of(context).fillsSecondary,
+            size: 28,
           )
         ],
       ),
     );
-  }
-
-  String _durationValue(AppLocalizations l10n) {
-    if (file is VideoFileModel) {
-      return (file as VideoFileModel).duration.toString();
-    } else {
-      return l10n.folder_details_file_duration_not_available;
-    }
   }
 }

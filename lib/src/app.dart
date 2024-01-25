@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:red_bull_flutter_case_study/src/localization/localization.dart';
 import 'package:red_bull_flutter_case_study/src/navigation.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_colors.dart';
+import 'package:red_bull_flutter_case_study/src/widgets/rb_typography.dart';
 
 class RedBullCaseStudyApp extends StatelessWidget {
   const RedBullCaseStudyApp({
@@ -62,13 +63,7 @@ class _AppState extends State<_App> {
           textTheme: CupertinoTextThemeData(
             // the default letter spacing seems not correct
             // see also: https://github.com/flutter/flutter/issues/22572
-            navLargeTitleTextStyle: TextStyle(
-              color: RbColors.of(context).labelPrimary,
-              fontSize: 34,
-              fontWeight: FontWeight.w700,
-              height: 1.2,
-              letterSpacing: -1.4,
-            ),
+            navLargeTitleTextStyle: titleBigOf(context),
           ),
         ),
         supportedLocales: AppLocalizations.supportedLocales,

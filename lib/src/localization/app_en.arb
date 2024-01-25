@@ -35,7 +35,10 @@
       }
     }
   },
-  "folder_details_file_duration": "Duration: ",
-  "folder_details_file_duration_not_available": "N/A",
-  "folder_details_error_unknown": "An unknown while loading files occurred!"
+
+  "folder_details_error_unknown": "An unknown while loading files occurred!",
+  "file_duration": "Duration",
+  "file_duration_notAvailable": "N/A",
+  "file_createdAt": "Created at",
+  "file_createdAt_notAvailable": "N/A"
 }

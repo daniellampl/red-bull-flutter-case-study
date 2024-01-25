@@ -8,6 +8,7 @@ import 'package:red_bull_flutter_case_study/src/widgets/rb_colors.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_list_tile.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_scaffold.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_spinner.dart';
+import 'package:red_bull_flutter_case_study/src/widgets/rb_typography.dart';
 
 const _kHorizontalPadding = EdgeInsets.symmetric(horizontal: 16);
 
@@ -60,7 +61,9 @@ class _ContentState extends State<_Content> {
             Consumer<FoldersController>(
               builder: (_, controller, __) {
                 if (controller.loading) {
-                  return const SliverToBoxAdapter(child: RbSpinner());
+                  return const SliverToBoxAdapter(
+                    child: Center(child: RbSpinner()),
+                  );
                 } else if (controller.error != null) {
                   // TODO: show error widget
                   return const SliverToBoxAdapter(child: SizedBox());
@@ -139,21 +142,13 @@ class _FolderListItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Image(
-            image: AssetImage(
-              'assets/images/folder.png',
-            ),
+            image: AssetImage('assets/images/folder.png'),
             height: 45,
           ),
           const SizedBox(width: 29),
           Text(
             _localizeName(context.l10n),
-            style: TextStyle(
-              color: RbColors.of(context).labelSecondary,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              height: 1.22,
-              letterSpacing: -0.4,
-            ),
+            style: titleMediumOf(context),
           )
         ],
       ),

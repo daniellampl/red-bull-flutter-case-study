@@ -17,6 +17,7 @@ abstract class FileModel {
   final int width;
 
   String get filename;
+  double get aspectRatio => width / height;
 }
 
 @immutable
