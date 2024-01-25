@@ -13,7 +13,7 @@ class FolderDetailsController extends ChangeNotifier {
     required this.id,
     FolderModel? folder,
   }) : _folder = folder {
-    _load();
+    load();
   }
 
   final FileRepository _fileRepository;
@@ -46,10 +46,10 @@ class FolderDetailsController extends ChangeNotifier {
     }
 
     _page++;
-    return _load();
+    return load();
   }
 
-  Future<void> _load() async {
+  Future<void> load() async {
     _loading = true;
     notifyListeners();
 

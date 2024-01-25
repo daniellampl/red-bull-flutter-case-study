@@ -92,9 +92,15 @@ class _ContentState extends State<_Content> {
                         ? const Center(
                             child: RbSpinner(),
                           )
-                        : Center(
-                            child:
-                                Text(context.l10n.folder_details_error_unknown),
+                        : GestureDetector(
+                            onTap: controller.load,
+                            child: Center(
+                              child: Text(
+                                context.l10n.folder_details_error_unknown,
+                                style: textSmallOf(context),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                           ),
                   ),
                 )

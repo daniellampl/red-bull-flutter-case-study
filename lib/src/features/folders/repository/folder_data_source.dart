@@ -11,6 +11,11 @@ class StaticFolderDataSource implements FolderDataSource {
   Future<List<FolderModel>> getAll() async {
     return [
       const FolderModel(
+        id: '362df5e3-6654-425c-8996-623f7ff54df6',
+        name: 'Red Bull',
+        type: FolderContentType.photo,
+      ),
+      const FolderModel(
         id: 'b2e5c516-2292-492c-98a0-ef1aca9f25e2',
         name: 'Clouds',
         type: FolderContentType.photo,

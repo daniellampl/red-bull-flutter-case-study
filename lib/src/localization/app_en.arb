@@ -26,7 +26,7 @@
   },
   "login_password_error_invalid": "This is not a valid password!",
   "login_cta": "LOGIN",
-  "folders_title": "Project Folder",
+  "folders_title": "Project Folders",
   "folders_item_video_title": "{title} (Video)",
   "@folders_item_video_title": {
     "placeholders": {
@@ -36,7 +36,7 @@
     }
   },
 
-  "folder_details_error_unknown": "An unknown while loading files occurred!",
+  "folder_details_error_unknown": "An unknown while loading files occurred!\nClick to retry!",
   "file_duration": "Duration",
   "file_duration_notAvailable": "N/A",
   "file_createdAt": "Created at",
