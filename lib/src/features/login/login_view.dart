@@ -59,46 +59,60 @@ class _LoginViewState extends State<LoginView> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Expanded(child: SizedBox()),
-            Text(
-              context.l10n.login_title,
-              style:
-                  CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
+    return LayoutBuilder(
+      builder: (_, constraints) => CupertinoPageScaffold(
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight,
+              maxHeight: constraints.maxHeight,
             ),
-            const SizedBox(height: 4),
-            Text(
-              context.l10n.login_subTitle,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                height: 1.1,
-                letterSpacing: -0.4,
-                color: RbColors.black.withOpacity(0.5),
-              ),
-            ),
-            const SizedBox(height: 28),
-            _LoginForm(key: _formKey),
-            const Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 71.0),
-                  child: Image(
-                    height: 45,
-                    image: AssetImage('assets/images/black_bull.png'),
-                  ),
+            child: IntrinsicHeight(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Expanded(child: SizedBox()),
+                    Text(
+                      context.l10n.login_title,
+                      style: CupertinoTheme.of(context)
+                          .textTheme
+                          .navLargeTitleTextStyle,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      context.l10n.login_subTitle,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        height: 1.1,
+                        letterSpacing: -0.4,
+                        color: RbColors.black.withOpacity(0.5),
+                      ),
+                    ),
+                    const SizedBox(height: 28),
+                    _LoginForm(key: _formKey),
+                    const Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 71.0),
+                          child: Image(
+                            height: 45,
+                            image: AssetImage('assets/images/black_bull.png'),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
-            )
-          ],
+            ),
+          ),
         ),
       ),
     );
@@ -135,6 +149,7 @@ class _LoginFormState extends State<_LoginForm> {
             focusNode: _emailFocusNode,
             label: Text(context.l10n.login_email_label),
             leading: const Icon(RbIcons.mail),
+            textInputAction: TextInputAction.next,
             validator: _emailValidator,
           ),
           const SizedBox(height: 13),
@@ -143,6 +158,7 @@ class _LoginFormState extends State<_LoginForm> {
             focusNode: _passwordFocusNode,
             label: Text(context.l10n.login_password_label),
             leading: const Icon(RbIcons.lock),
+            textInputAction: TextInputAction.done,
             obscureText: true,
             validator: _passwordValidator,
           ),

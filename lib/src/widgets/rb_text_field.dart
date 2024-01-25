@@ -12,6 +12,7 @@ class RbTextFormField extends StatefulWidget {
   const RbTextFormField({
     this.controller,
     this.focusNode,
+    this.textInputAction,
     super.key,
     this.keyboardType,
     this.label,
@@ -23,6 +24,7 @@ class RbTextFormField extends StatefulWidget {
 
   final TextEditingController? controller;
   final FocusNode? focusNode;
+  final TextInputAction? textInputAction;
   final TextInputType? keyboardType;
   final Widget? label;
   final Icon? leading;
@@ -137,6 +139,7 @@ class _RbTextFormFieldState extends State<RbTextFormField> {
                               controller: _controller,
                               cursorColor: RbColors.of(context).primary,
                               focusNode: _focusNode,
+                              textInputAction: widget.textInputAction,
                               keyboardType: widget.keyboardType,
                               obscureText: widget.obscureText && _obscured,
                               onChanged: state.didChange,
