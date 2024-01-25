@@ -1,3 +1,6 @@
+## 0.4.2
+* Added error handling on failed image or video loading
+
 ## 0.4.1
 * Fixed authenticated state doesn't get updated properly after successful login
 
