@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:red_bull_flutter_case_study/src/localization/localization.dart';
 import 'package:red_bull_flutter_case_study/src/navigation.dart';
@@ -61,10 +63,17 @@ class _AppState extends State<_App> {
         // inside the router.
         builder: (_, child) => AppNavigator(
           implementation: _appNavigator,
-          child: child!,
+          child: defaultTargetPlatform != TargetPlatform.iOS
+              // set Android scroll behavior
+              ? ScrollConfiguration(
+                  behavior: const MaterialScrollBehavior(),
+                  child: child!,
+                )
+              : child!,
         ),
         // uses 'SF Pro' by default
         theme: CupertinoThemeData(
+          brightness: Brightness.light,
           barBackgroundColor: RbColors.of(context).background,
           textTheme: CupertinoTextThemeData(
             // the default letter spacing seems not correct
