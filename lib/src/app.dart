@@ -57,6 +57,12 @@ class _AppState extends State<_App> {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
+        // place AppNavigator below the app so we can access the localizations
+        // inside the router.
+        builder: (_, child) => AppNavigator(
+          implementation: _appNavigator,
+          child: child!,
+        ),
         // uses 'SF Pro' by default
         theme: CupertinoThemeData(
           barBackgroundColor: RbColors.of(context).background,

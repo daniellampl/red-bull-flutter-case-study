@@ -12,6 +12,7 @@ import 'package:red_bull_flutter_case_study/src/features/folders/repository/fold
 import 'package:red_bull_flutter_case_study/src/features/folders/repository/folder_repository.dart';
 import 'package:red_bull_flutter_case_study/src/features/login/login_controller.dart';
 import 'package:red_bull_flutter_case_study/src/features/login/login_view.dart';
+import 'package:red_bull_flutter_case_study/src/localization/localization.dart';
 import 'package:red_bull_flutter_case_study/src/sheet/sheet.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_colors.dart';
 
@@ -90,9 +91,9 @@ class GoRouterAppNavigator implements AppNavigatorInterface {
         GoRoute(
           name: _kLoginRouteName,
           path: '/',
-          pageBuilder: (_, __) => CupertinoPage(
+          pageBuilder: (context, __) => CupertinoPage(
             key: const ValueKey(_kLoginRouteName),
-            title: 'Login',
+            title: context.l10n.login_title,
             child: LoginView(
               pageRouteObserver: _pageRouteObserver,
             ),
