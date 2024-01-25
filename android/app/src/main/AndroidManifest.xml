@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="red_bull_flutter_case_study"
+        android:label="Case Study"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
