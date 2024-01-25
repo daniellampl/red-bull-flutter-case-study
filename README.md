@@ -67,14 +67,7 @@ We use the following regular expression for validating user-entered passwords:
 ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:;<>,.?/~`]).{8,}$
 ```
 
-### Folders
-
-
-
 ### Files
-
-
-#### File Querying
 
 We utilize the [Pixabay API](https://pixabay.com/api/docs/) for querying images and videos. Both image and video responses are parsed into model objects representations, which are then used throughout the application.
 
@@ -149,31 +142,12 @@ The following table explains how the values received from the [Pixabay API](http
 | `width`                 | `imageWidth`                                                                                                 | `width` from the `large` video source in the `videos` list (`large` is optional - fallback `medium`)                | 
 | `duration` (video only) | -                                                                                                            | `duration` in seconds                                                                                               |
 
-
 ---
 
-## Concepts
 
-### State Management & Architecture
-- Explain provider
-- Provider gets defined above view - views expect controller, nothing more
-- MVC diagram
-- Diagram
-- Unidirectional data flow
-- Role of Repository
-- Role of Data Sources
+## Styling and UI
 
-### Navigation
-- go_router Explanation
-- Image for demonstration
-- Show interface and explain information hiding
-- Explain passing data between slides
-- View states do not communicate
-- URL restores data in view
-
-### Styling and UI
-
-#### Colors
+### Colors
 
 In order centrally define colors and provide them to the widget tree, we use a custom `InheritedWidget`called `RBColors`. This allows us 
 switch out the color configuration, if the state of the app changes (e.g. user switches from light, to dark mode).
@@ -188,11 +162,33 @@ Container(
 ),
 ```
 
-#### Fonts
+### Fonts
 
-- Text styles and accessors - inspired by prototype, adjusted for usability
+Globally defined `TextStyle`s can be used by calling a font styles corresponding "accessor" function using the `BuildContext`.
 
-#### Icons
+```dart
+Text(
+  'some text',
+  style: textSmallOf(context)
+)
+```
+
+Since font definitions use `RbColors` for defining their colors, we can only access the `TextStyle` by providing a `BuildContext`.
+
+The letter spacing of Flutter's default `TextStyle` for the cupertino `navLargeTitleTextStyle` arguably looks a a little bit of. To fix that we overwrite the 
+`CupertinoThemeData` with our own `TextStyle` provided by the `titleBigOf` accessor.
+
+```dart
+CupertinoApp(
+  // ...
+  theme: CupertinoThemeData(
+    // ...
+    navLargeTitleTextStyle: titleBigOf(context),
+  ),
+)
+```
+
+### Icons
 
 All vectors used in the prototype got transformed into a custom icon using [icomoon.io](https://icomoon.io/). The reason for this is, that Flutter does not support svg rendering 
 without the help of a third party package (like [flutter_svg](https://pub.dev/packages/flutter_svg)).
@@ -216,17 +212,18 @@ icon font.
 ```dart
 class RbIcons {
   // ...
+  
   static const IconData mail = IconData(0xe900, fontFamily: 'RbIcons');
-// ...
+  // ...
 }
 ```
 
 Using an icon font is more performant and plugs directly into Flutter's intended way of displaying icons (`IconData` rendered by the `Icon`
-widget).
+widget). Plus, the icons will automatically use a color provided via an `IconTheme` widget above (like `CupertinoApp` does it).
 
 ```dart
 Icon(
-  RbIcons.lock,
+  RbIcons.mail,
   ...
 )
 ```
