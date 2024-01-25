@@ -55,6 +55,8 @@ class PhotoFileModel extends FileModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is PhotoFileModel &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.height, height) || other.height == height) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.url, url) || other.url == url) &&
@@ -65,7 +67,13 @@ class PhotoFileModel extends FileModel {
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, height, id, url, thumbnail, width);
+      Object.hash(runtimeType, createdAt, height, id, url, thumbnail, width);
+
+  @override
+  String toString() {
+    return 'PhotoFileModel(createdAt: $createdAt, height: $height, id: $id,'
+        ' url: $url, thumbnail: $thumbnail, width: $width)';
+  }
 }
 
 @immutable
@@ -107,6 +115,8 @@ class VideoFileModel extends FileModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is VideoFileModel &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.height, height) || other.height == height) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.thumbnail, thumbnail) ||
@@ -116,8 +126,14 @@ class VideoFileModel extends FileModel {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, duration, height, id, thumbnail, url, width);
+  int get hashCode => Object.hash(
+      runtimeType, createdAt, duration, height, id, thumbnail, url, width);
+
+  @override
+  String toString() {
+    return 'VideoFileModel(createdAt: $createdAt, duration: $duration, height: '
+        '$height, id: $id, url: $url, thumbnail: $thumbnail, width: $width)';
+  }
 }
 
 String _readPhotoThumbnail(Map json, String key) {
