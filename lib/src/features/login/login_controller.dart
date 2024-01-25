@@ -7,15 +7,14 @@ class LoginController with ChangeNotifier {
   LoginController(
     this._loginService,
     this._userCredentialsRepository,
-  ) {
-    _userCredentialsRepository.credentials.addListener(notifyListeners);
-  }
+  );
 
   final LoginService _loginService;
   final UserCredentialsRepository _userCredentialsRepository;
 
-  bool get authenticated =>
-      _userCredentialsRepository.credentials.value != null;
+  UserCredentialsModel? _credentials;
+
+  bool get authenticated => _credentials != null;
 
   Future<void> login({
     required String email,
@@ -34,17 +33,13 @@ class LoginController with ChangeNotifier {
     return _userCredentialsRepository.save(credentials);
   }
 
-  Future<void> logout() {
-    return _userCredentialsRepository.delete();
+  Future<void> logout() async {
+    await _userCredentialsRepository.delete();
+    _credentials = null;
   }
 
   Future<void> loadCredentials() async {
-    return _userCredentialsRepository.get();
-  }
-
-  @override
-  void dispose() {
-    _userCredentialsRepository.credentials.removeListener(notifyListeners);
-    super.dispose();
+    _credentials = await _userCredentialsRepository.get();
+    notifyListeners();
   }
 }

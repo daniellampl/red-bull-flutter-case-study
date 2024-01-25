@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:red_bull_flutter_case_study/src/features/login/repository/model/user_credentials_model.dart';
 
@@ -15,10 +14,7 @@ class UserCredentialsRepository {
 
   final FlutterSecureStorage _secureStorage;
 
-  final ValueNotifier<UserCredentialsModel?> _credentials = ValueNotifier(null);
-  ValueNotifier<UserCredentialsModel?> get credentials => _credentials;
-
-  Future<void> get() async {
+  Future<UserCredentialsModel?> get() async {
     final result = await Future.wait([
       _secureStorage.read(key: _kEmailStorageKey),
       _secureStorage.read(key: _kPasswordStorageKey),
@@ -27,11 +23,9 @@ class UserCredentialsRepository {
     final email = result.first;
     final password = result.last;
 
-    final credentials = email != null && password != null
+    return email != null && password != null
         ? UserCredentialsModel(email: email, password: password)
         : null;
-
-    _credentials.value = credentials;
   }
 
   Future<void> save(UserCredentialsModel credentials) async {
@@ -42,8 +36,6 @@ class UserCredentialsRepository {
         value: credentials.password,
       ),
     ]);
-
-    _credentials.value = credentials;
   }
 
   Future<void> delete() async {
@@ -51,7 +43,5 @@ class UserCredentialsRepository {
       _secureStorage.delete(key: _kEmailStorageKey),
       _secureStorage.delete(key: _kPasswordStorageKey),
     ]);
-
-    _credentials.value = null;
   }
 }
