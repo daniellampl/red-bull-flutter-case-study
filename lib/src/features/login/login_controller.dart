@@ -13,13 +13,12 @@ class LoginController with ChangeNotifier {
   final UserCredentialsRepository _userCredentialsRepository;
 
   UserCredentialsModel? _credentials;
-
   bool get authenticated => _credentials != null;
 
   Future<void> login({
     required String email,
     required String password,
-  }) {
+  }) async {
     if (authenticated) {
       throw Exception('User is already authenticated!');
     }
@@ -30,7 +29,9 @@ class LoginController with ChangeNotifier {
       throw ArgumentError('User credentials are not valid!');
     }
 
-    return _userCredentialsRepository.save(credentials);
+    await _userCredentialsRepository.save(credentials);
+    _credentials = credentials;
+    notifyListeners();
   }
 
   Future<void> logout() async {
