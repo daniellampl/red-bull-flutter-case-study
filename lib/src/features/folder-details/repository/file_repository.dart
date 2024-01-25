@@ -1,5 +1,5 @@
-import 'package:red_bull_flutter_case_study/src/features/content-manager/folder-details/repository/file_data_source.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/folder-details/repository/file_model.dart';
+import 'package:red_bull_flutter_case_study/src/features/folder-details/repository/file_data_source.dart';
+import 'package:red_bull_flutter_case_study/src/features/folder-details/repository/file_model.dart';
 
 enum FileTypeQuery { photo, video }
 

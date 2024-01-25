@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:red_bull_flutter_case_study/src/features/login/service/impl/login_service.dart';
+import 'package:red_bull_flutter_case_study/src/features/login/service/login_service.dart';
 import 'package:red_bull_flutter_case_study/src/features/login/repository/model/user_credentials_model.dart';
 import 'package:red_bull_flutter_case_study/src/features/login/repository/user_credentials_repository.dart';
 

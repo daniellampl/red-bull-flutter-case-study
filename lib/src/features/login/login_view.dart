@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:red_bull_flutter_case_study/src/features/login/login_controller.dart';
-import 'package:red_bull_flutter_case_study/src/features/login/service/login_validator.dart';
+import 'package:red_bull_flutter_case_study/src/features/login/service/login_service.dart';
 import 'package:red_bull_flutter_case_study/src/localization/localization.dart';
 import 'package:red_bull_flutter_case_study/src/navigation.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_button.dart';

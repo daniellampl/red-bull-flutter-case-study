@@ -2,8 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:red_bull_flutter_case_study/src/features/content-manager/folder-details/repository/file_model.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/folders/repository/folder_model.dart';
+import 'package:red_bull_flutter_case_study/src/features/folder-details/repository/file_model.dart';
 
 const _kPixabayApiBaseUrl = 'pixabay.com';
 

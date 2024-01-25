@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/folders/folders_controller.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/folders/repository/folder_model.dart';
+import 'package:red_bull_flutter_case_study/src/features/folders/folders_controller.dart';
+import 'package:red_bull_flutter_case_study/src/features/folders/repository/folder_model.dart';
 import 'package:red_bull_flutter_case_study/src/localization/localization.dart';
 import 'package:red_bull_flutter_case_study/src/navigation.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_colors.dart';

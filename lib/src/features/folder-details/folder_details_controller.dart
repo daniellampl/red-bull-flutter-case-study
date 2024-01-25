@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/folder-details/repository/file_model.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/folder-details/repository/file_repository.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/folders/repository/folder_model.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/folders/repository/folder_repository.dart';
+import 'package:red_bull_flutter_case_study/src/features/folder-details/repository/file_model.dart';
+import 'package:red_bull_flutter_case_study/src/features/folder-details/repository/file_repository.dart';
+import 'package:red_bull_flutter_case_study/src/features/folders/repository/folder_model.dart';
+import 'package:red_bull_flutter_case_study/src/features/folders/repository/folder_repository.dart';
 
 const _kItemsPerPage = 25;
 

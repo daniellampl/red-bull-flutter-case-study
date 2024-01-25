@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/file-details/widgets/file_detail_icons.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/file-details/widgets/file_spec.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/folder-details/folder_details_controller.dart';
-import 'package:red_bull_flutter_case_study/src/features/content-manager/folder-details/repository/file_model.dart';
+import 'package:red_bull_flutter_case_study/src/features/file-details/widgets/file_detail_icons.dart';
+import 'package:red_bull_flutter_case_study/src/features/file-details/widgets/file_spec.dart';
+import 'package:red_bull_flutter_case_study/src/features/folder-details/folder_details_controller.dart';
+import 'package:red_bull_flutter_case_study/src/features/folder-details/repository/file_model.dart';
 import 'package:red_bull_flutter_case_study/src/localization/localization.dart';
 import 'package:red_bull_flutter_case_study/src/navigation.dart';
-import 'package:red_bull_flutter_case_study/src/widgets/network_file.dart';
+import 'package:red_bull_flutter_case_study/src/widgets/rb_network_file.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_colors.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_icons.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_list_tile.dart';
