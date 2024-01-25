@@ -144,12 +144,11 @@ The following table explains how the values received from the [Pixabay API](http
 
 ---
 
-
 ## Styling and UI
 
 ### Colors
 
-In order centrally define colors and provide them to the widget tree, we use a custom `InheritedWidget`called `RBColors`. This allows us 
+In order to centrally define colors and provide them to the widget tree, we use a custom `InheritedWidget`called `RBColors`. This allows us 
 switch out the color configuration, if the state of the app changes (e.g. user switches from light, to dark mode).
 
 To make it accessible for all descendants (even the navigation) we wrap the  widget tree as far top as possible. To access the colors, all 
