@@ -210,8 +210,7 @@ class _FileListItem extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       DurationFileSpec(_duration),
-                      // TODO: use value from file
-                      CreationDateFileSpec(DateTime.now())
+                      CreationDateFileSpec(file.createdAt)
                     ],
                   ),
                 ),

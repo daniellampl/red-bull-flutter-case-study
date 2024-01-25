@@ -10,8 +10,10 @@ abstract class FileModel {
     required this.url,
     required this.thumbnail,
     required this.width,
+    this.createdAt,
   });
 
+  final DateTime? createdAt;
   final int height;
   final int id;
   final Uri thumbnail;
@@ -31,16 +33,19 @@ class PhotoFileModel extends FileModel {
     required super.url,
     required super.thumbnail,
     required super.width,
+    super.createdAt,
   });
 
-  factory PhotoFileModel.fromJson(Map<String, dynamic> json) =>
-      PhotoFileModel._(
-        height: json['imageHeight'] as int,
-        id: json['id'] as int,
-        url: Uri.parse(json['largeImageURL'] as String),
-        thumbnail: Uri.parse(json['previewURL'] as String),
-        width: json['imageWidth'] as int,
-      );
+  factory PhotoFileModel.fromJson(Map<String, dynamic> json) {
+    return PhotoFileModel._(
+      createdAt: _extractDateTime(json['previewURL'] as String),
+      height: json['imageHeight'] as int,
+      id: json['id'] as int,
+      url: Uri.parse(json['largeImageURL'] as String),
+      thumbnail: Uri.parse(json['previewURL'] as String),
+      width: json['imageWidth'] as int,
+    );
+  }
 
   @override
   String get filename => thumbnail.path.split('/').last;
@@ -72,10 +77,12 @@ class VideoFileModel extends FileModel {
     required super.thumbnail,
     required super.url,
     required super.width,
+    super.createdAt,
   });
 
   factory VideoFileModel.fromJson(Map<String, dynamic> json) =>
       VideoFileModel._(
+        createdAt: _extractDateTime(json['userImageURL'] as String),
         duration: Duration(seconds: json['duration'] as int),
         height: _readVideoHeight(json, 'height'),
         id: json['id'] as int,
@@ -142,5 +149,25 @@ dynamic _readVideoValue(Map json, String key) {
   } else {
     final medium = videos['medium'];
     return medium[key];
+  }
+}
+
+DateTime? _extractDateTime(String url) {
+  final regex = RegExp(r'/(\d{4})/(\d{2})/(\d{2})/');
+  final match = regex.firstMatch(url);
+
+  if (match != null && match.groupCount >= 3) {
+    try {
+      final year = int.parse(match.group(1)!);
+      final month = int.parse(match.group(2)!);
+      final day = int.parse(match.group(3)!);
+
+      return DateTime(year, month, day);
+    } catch (e) {
+      // if something goes wrong. better safe than sorry.
+      return null;
+    }
+  } else {
+    return null;
   }
 }

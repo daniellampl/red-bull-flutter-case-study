@@ -55,7 +55,7 @@ class FileDetailsView extends StatelessWidget {
                               runAlignment: WrapAlignment.center,
                               children: [
                                 DurationFileSpec(_duration),
-                                CreationDateFileSpec(DateTime.now()),
+                                CreationDateFileSpec(file.createdAt),
                                 FileDetailIcons(file: file),
                               ],
                             ),

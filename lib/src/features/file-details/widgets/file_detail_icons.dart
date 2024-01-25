@@ -27,29 +27,28 @@ class FileDetailIcons extends StatelessWidget {
             _typeIcon,
             size: _kIconSize,
           ),
-          if (file is VideoFileModel) ...[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6),
-              child: Container(
-                height: _kIconSize,
-                width: 0.4,
-                color: iconColor,
-              ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: Container(
+              height: _kIconSize,
+              width: 0.4,
+              color: iconColor,
             ),
-            if (_videoResolutionIcon != null)
-              Icon(
-                _videoResolutionIcon,
-                color: RbColors.of(context).fillsSecondary,
-                size: _kIconSize,
-              )
-            else
-              Text(
-                file.resolution,
-                style: textSmallOf(context).copyWith(
-                  fontWeight: FontWeight.w300,
-                ),
-              )
-          ]
+          ),
+          if (file is VideoFileModel && _videoResolutionIcon != null) ...[
+            Icon(
+              _videoResolutionIcon,
+              color: RbColors.of(context).fillsSecondary,
+              size: _kIconSize,
+            )
+          ],
+          if (_videoResolutionIcon == null)
+            Text(
+              file.resolution,
+              style: textSmallOf(context).copyWith(
+                fontWeight: FontWeight.w300,
+              ),
+            )
         ],
       ),
     );

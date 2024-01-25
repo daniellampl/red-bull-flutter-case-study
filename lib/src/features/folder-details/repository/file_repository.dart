@@ -6,7 +6,7 @@ enum FileTypeQuery { photo, video }
 class FileRepository {
   FileRepository({
     FileDataSource? dataSource,
-  }) : _dataSource = dataSource ?? PixabayFileDataSource();
+  }) : _dataSource = dataSource ?? PixabayApiFileDataSource();
 
   final FileDataSource _dataSource;
 

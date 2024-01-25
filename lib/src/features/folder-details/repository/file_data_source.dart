@@ -22,10 +22,10 @@ abstract interface class FileDataSource {
 
 /// An implementation of [FolderDataSource] that return static [FolderModel]
 /// data.
-class PixabayFileDataSource implements FileDataSource {
+class PixabayApiFileDataSource implements FileDataSource {
   final http.Client _pixabayClient;
 
-  PixabayFileDataSource([
+  PixabayApiFileDataSource([
     http.Client? pixabayClient,
   ]) : _pixabayClient = pixabayClient ?? http.Client();
 
