@@ -5,6 +5,7 @@ import 'package:red_bull_flutter_case_study/src/features/content-manager/folders
 import 'package:red_bull_flutter_case_study/src/localization/localization.dart';
 import 'package:red_bull_flutter_case_study/src/navigation.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_colors.dart';
+import 'package:red_bull_flutter_case_study/src/widgets/rb_icons.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_list_tile.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_scaffold.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_spinner.dart';
@@ -123,6 +124,8 @@ class _SliverFoldersList extends StatelessWidget {
   }
 }
 
+const _kFolderColor = Color(0xFF7CBFF1);
+
 class _FolderListItem extends StatelessWidget {
   const _FolderListItem({
     required this.folder,
@@ -141,9 +144,10 @@ class _FolderListItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Image(
-            image: AssetImage('assets/images/folder.png'),
-            height: 45,
+          const Icon(
+            RbIcons.folder,
+            size: 45,
+            color: _kFolderColor,
           ),
           const SizedBox(width: 29),
           Text(

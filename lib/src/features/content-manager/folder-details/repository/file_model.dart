@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 
 @immutable
@@ -16,8 +18,9 @@ abstract class FileModel {
   final Uri url;
   final int width;
 
-  String get filename;
   double get aspectRatio => width / height;
+  String get filename;
+  String get resolution => '${width}x$height';
 }
 
 @immutable
@@ -85,6 +88,12 @@ class VideoFileModel extends FileModel {
 
   @override
   String get filename => url.path.split('/').last;
+
+  bool get is4k => _wideSideWidth == 3840 && _shortSideWidth == 2160;
+  bool get isFhd => _wideSideWidth == 1920 && _shortSideWidth == 1080;
+
+  int get _wideSideWidth => max(height, width);
+  int get _shortSideWidth => min(height, width);
 
   @override
   bool operator ==(Object other) {

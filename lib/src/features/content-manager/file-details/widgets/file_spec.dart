@@ -68,13 +68,13 @@ class FileSpec extends StatelessWidget {
           TextSpan(
             text: '$title: ',
             style: textStyle.copyWith(
-              fontWeight: FontWeight.w200,
+              fontWeight: FontWeight.w300,
             ),
           ),
           TextSpan(
             text: value,
             style: textStyle.copyWith(
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ],

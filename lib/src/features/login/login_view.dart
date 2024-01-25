@@ -6,6 +6,7 @@ import 'package:red_bull_flutter_case_study/src/localization/localization.dart';
 import 'package:red_bull_flutter_case_study/src/navigation.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_button.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_colors.dart';
+import 'package:red_bull_flutter_case_study/src/widgets/rb_icons.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_text_field.dart';
 
 class LoginView extends StatefulWidget {
@@ -110,7 +111,7 @@ class _LoginFormState extends State<_LoginForm> {
             controller: _emailController,
             focusNode: _emailFocusNode,
             label: Text(context.l10n.login_email_label),
-            leading: const Icon(CupertinoIcons.mail),
+            leading: const Icon(RbIcons.mail),
             validator: _emailValidator,
           ),
           const SizedBox(height: 13),
@@ -118,7 +119,7 @@ class _LoginFormState extends State<_LoginForm> {
             controller: _passwordController,
             focusNode: _passwordFocusNode,
             label: Text(context.l10n.login_password_label),
-            leading: const Icon(CupertinoIcons.lock),
+            leading: const Icon(RbIcons.lock),
             obscureText: true,
             validator: _passwordValidator,
           ),

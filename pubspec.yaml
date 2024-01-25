@@ -30,3 +30,8 @@ flutter:
   generate: true
   assets:
     - assets/images/
+    - assets/fonts/
+  fonts:
+    - family: RbIcons
+      fonts:
+        - asset: assets/fonts/icons.ttf

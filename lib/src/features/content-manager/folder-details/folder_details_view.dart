@@ -8,6 +8,7 @@ import 'package:red_bull_flutter_case_study/src/localization/localization.dart';
 import 'package:red_bull_flutter_case_study/src/navigation.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/network_file.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_colors.dart';
+import 'package:red_bull_flutter_case_study/src/widgets/rb_icons.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_list_tile.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_scaffold.dart';
 import 'package:red_bull_flutter_case_study/src/widgets/rb_spinner.dart';
@@ -211,14 +212,15 @@ class _FileListItem extends StatelessWidget {
                     ],
                   ),
                 ),
+                const SizedBox(height: 2),
                 FileDetailIcons(file: file)
               ],
             ),
           ),
           Icon(
-            CupertinoIcons.play_circle_fill,
+            RbIcons.playFilled,
             color: RbColors.of(context).fillsSecondary,
-            size: 28,
+            size: 25,
           )
         ],
       ),
