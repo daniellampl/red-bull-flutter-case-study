@@ -36,6 +36,7 @@ class RbListTile extends StatelessWidget {
     } else {
       return Material(
         child: ListTile(
+          minVerticalPadding: 0,
           contentPadding: padding,
           dense: true,
           onTap: onTap,
