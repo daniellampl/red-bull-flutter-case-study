@@ -1,3 +1,13 @@
+## 0.4.0
+* Implemented file details view
+* Added video player for video files
+* Added Pixabay API `createdAt` mapping to `FileModel`
+* Introduced `RbIcons` and replaced `CupertinoIcons` and image icon
+* Introduced `RbNetworkImage` and `RbNetworkVideo` for displaying network video and image source
+* Made `Loginview` scrollable for user input
+* Added retry functionality for failed file page request to `FolderDetailsView`
+* Restructured project files
+
 ## 0.3.0 
 * Implemented folder details sheet view.
 * Added infinite scroll pagination loading.
