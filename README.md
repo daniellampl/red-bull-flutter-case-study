@@ -10,6 +10,19 @@ This project showcases Flutter proficiency, offering Pixabay image and video que
 
 Before you begin, make sure you have the latest Flutter SDK installed on your local machine. See [Flutter install guideline](https://docs.flutter.dev/get-started/install) for more information.
 
+#### Flutter Version Management
+
+To make sure every developer is using the same Flutter version we use [fvm ("Flutter Version Management")](https://fvm.app/) to achieve this. Just [install](https://fvm.app/docs/getting_started/installation/) it on your 
+machine and configure your [IDE](https://fvm.app/docs/getting_started/configuration) accordingly.
+
+The project's Flutter version is configured in the [fvm_config.json](.fvm/fvm_config.json) file. The Flutter SDK then gets installed in the `.fvm` folder and (if properly configured) used by your IDE.
+
+If you wanna execute any Flutter-related commands with the project's Flutter version do so as follows:
+
+```
+fvm flutter ...
+```
+
 ### Environment Variables
 
 This Flutter application relies on the following environment variables:
